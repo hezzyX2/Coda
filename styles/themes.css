@@ -1,0 +1,96 @@
+/* Multiple aesthetic themes using CSS variables */
+[data-theme="lilac-mist"] {
+  --bg: #0a0815;
+  --text: #f5f4ff;
+  --muted: #d4cfff;
+  --card: rgba(155, 135, 245, 0.12);
+  --border: rgba(155, 135, 245, 0.4);
+  --primary: #b89fff;
+  --primary-glow: #9b87f5;
+  --danger: #ff6b6b;
+  --accent: #c77dff;
+  --accent-2: #e0aaff;
+}
+
+[data-theme="midnight-neon"] {
+  --bg: #03050a;
+  --text: #f0ffff;
+  --muted: #b3fff5;
+  --card: rgba(0, 255, 200, 0.15);
+  --border: rgba(0, 255, 200, 0.4);
+  --primary: #00ffd1;
+  --primary-glow: #00ffd1;
+  --danger: #ff4d6d;
+  --accent: #00d4ff;
+  --accent-2: #00a8cc;
+}
+
+[data-theme="sunset-glow"] {
+  --bg: #1a0f15;
+  --text: #fff8f0;
+  --muted: #ffdcc3;
+  --card: rgba(255, 138, 91, 0.15);
+  --border: rgba(255, 138, 91, 0.45);
+  --primary: #ff9d6b;
+  --primary-glow: #ff8a5b;
+  --danger: #ff6b6b;
+  --accent: #ffb347;
+  --accent-2: #ff8c42;
+}
+
+[data-theme="ocean-breeze"] {
+  --bg: #06141e;
+  --text: #f0f9ff;
+  --muted: #bae6ff;
+  --card: rgba(90, 172, 255, 0.15);
+  --border: rgba(90, 172, 255, 0.4);
+  --primary: #7ab8ff;
+  --primary-glow: #5aacff;
+  --danger: #ff7b8a;
+  --accent: #60a5fa;
+  --accent-2: #3b82f6;
+}
+
+[data-theme="forest-fog"] {
+  --bg: #0a1410;
+  --text: #f0fff4;
+  --muted: #c7f0d3;
+  --card: rgba(88, 176, 140, 0.15);
+  --border: rgba(88, 176, 140, 0.4);
+  --primary: #6fc89e;
+  --primary-glow: #58b08c;
+  --danger: #ff7b8a;
+  --accent: #52c878;
+  --accent-2: #3fa76d;
+}
+
+/* Theme-specific background adjustments */
+[data-theme="midnight-neon"] body {
+  background: 
+    radial-gradient(1200px 800px at 80% -10%, rgba(0,255,209,0.2), transparent),
+    radial-gradient(800px 600px at -10% 50%, rgba(0,212,255,0.15), transparent),
+    var(--bg);
+}
+
+[data-theme="sunset-glow"] body {
+  background: 
+    radial-gradient(1200px 800px at 80% -10%, rgba(255,157,107,0.2), transparent),
+    radial-gradient(800px 600px at -10% 50%, rgba(255,179,71,0.15), transparent),
+    var(--bg);
+}
+
+[data-theme="ocean-breeze"] body {
+  background: 
+    radial-gradient(1200px 800px at 80% -10%, rgba(90,172,255,0.2), transparent),
+    radial-gradient(800px 600px at -10% 50%, rgba(96,165,250,0.15), transparent),
+    var(--bg);
+}
+
+[data-theme="forest-fog"] body {
+  background: 
+    radial-gradient(1200px 800px at 80% -10%, rgba(88,176,140,0.2), transparent),
+    radial-gradient(800px 600px at -10% 50%, rgba(82,200,120,0.15), transparent),
+    var(--bg);
+}
+
+

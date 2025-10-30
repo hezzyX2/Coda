@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://coda.app/sitemap.xml

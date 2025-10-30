@@ -1,0 +1,105 @@
+/* Admin Dashboard Styles */
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.revenue-card {
+  background: linear-gradient(135deg, rgba(155, 135, 245, 0.15), rgba(255, 120, 180, 0.1));
+  border-color: var(--primary);
+}
+
+.conversion-rate {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.conversion-rate p {
+  font-size: 18px;
+  color: var(--text);
+}
+
+.conversion-rate strong {
+  color: var(--primary);
+}
+
+.admin-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.setup-info {
+  margin-top: 20px;
+}
+
+.setup-info h3 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.setup-info p {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.setup-steps {
+  list-style: decimal;
+  padding-left: 24px;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.setup-steps li {
+  margin-bottom: 12px;
+}
+
+.setup-steps code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--primary);
+}
+
+.setup-steps ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.dashboard-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.dashboard-links a {
+  text-decoration: none;
+}
+
+.admin-link {
+  color: var(--danger) !important;
+  font-weight: 700;
+  opacity: 1 !important;
+}
+
