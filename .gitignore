@@ -22,4 +22,9 @@ pnpm-debug.log*
 .idea
 .vscode
 
+# Testing
+coverage
 
+# Build
+dist
+build

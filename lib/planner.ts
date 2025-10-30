@@ -1,9 +1,23 @@
 import { Plan, PlanBlock, Preferences, Task } from "./models";
 
 function formatTime(date: Date): string {
-  const ms = typeof (date as any)?.getTime === "function" ? (date as any).getTime() : NaN;
-  if (!Number.isFinite(ms)) return "";
-  return new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(date);
+  // Check if date is a valid Date object
+  if (!date || !(date instanceof Date)) return "";
+  
+  // Get timestamp and check if it's valid
+  const ms = date.getTime();
+  if (!Number.isFinite(ms) || isNaN(ms)) return "";
+  
+  // Create a new Date from the valid timestamp to ensure it's properly formatted
+  const validDate = new Date(ms);
+  if (isNaN(validDate.getTime())) return "";
+  
+  try {
+    return new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(validDate);
+  } catch (error) {
+    // Fallback if formatting fails
+    return "";
+  }
 }
 
 function sortTasks(tasks: Task[], bias: Preferences["difficultyBias"]): Task[] {
