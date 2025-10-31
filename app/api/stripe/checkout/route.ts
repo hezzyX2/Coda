@@ -18,8 +18,19 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Missing user information" }, { status: 400 });
     }
 
+    // Check if Stripe is configured with better error messaging
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error("[Stripe Checkout] STRIPE_SECRET_KEY environment variable is not set");
+      return Response.json({ 
+        error: "Stripe not configured. STRIPE_SECRET_KEY environment variable is missing. Please add it in Vercel environment variables." 
+      }, { status: 500 });
+    }
+
     if (!stripe) {
-      return Response.json({ error: "Stripe not configured. Please set STRIPE_SECRET_KEY" }, { status: 500 });
+      console.error("[Stripe Checkout] Stripe initialization failed. Check if STRIPE_SECRET_KEY is valid.");
+      return Response.json({ 
+        error: "Stripe not configured. Please check your STRIPE_SECRET_KEY in Vercel environment variables." 
+      }, { status: 500 });
     }
 
     // Create or retrieve Stripe customer
@@ -59,8 +70,16 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: "subscription",
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/premium?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/premium?canceled=true`,
+      success_url: (() => {
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+        const url = siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
+        return `${url}/premium?success=true`;
+      })(),
+      cancel_url: (() => {
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+        const url = siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
+        return `${url}/premium?canceled=true`;
+      })(),
       metadata: {
         userId,
         userEmail,

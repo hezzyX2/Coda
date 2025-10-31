@@ -12,9 +12,17 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: process.env.NEXT_PUBLIC_SITE_URL 
-    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-    : new URL("https://coda.app"),
+  metadataBase: (() => {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!siteUrl) return new URL("https://coda.app");
+    try {
+      // Add https:// if not present
+      const url = siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
+      return new URL(url);
+    } catch {
+      return new URL("https://coda.app");
+    }
+  })(),
   openGraph: {
     title: "Coda - AI-Powered Student Organizer",
     description: "Organize your day with AI. Plan tasks, journal your thoughts, and get personalized advice.",
