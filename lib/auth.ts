@@ -77,14 +77,32 @@ export async function login(email: string, password: string): Promise<{ success:
     return { success: false, error: "Invalid email or password" };
   }
 
-  // Verify password (hashed)
+  // Verify password (hashed or plain text for migration)
   const storedPasswordHash = localStorage.getItem(`coda.password.${sanitizedEmail}`);
   if (!storedPasswordHash) {
     recordFailedLogin(sanitizedEmail);
     return { success: false, error: "Invalid email or password" };
   }
 
-  const passwordValid = await verifyPassword(password, storedPasswordHash);
+  // Check if password is stored as hash (starts with characters that indicate hash)
+  // or plain text (for accounts created before hashing was implemented)
+  let passwordValid: boolean;
+  
+  if (storedPasswordHash.length === 64 && /^[a-f0-9]{64}$/.test(storedPasswordHash)) {
+    // It's a hash - verify normally
+    passwordValid = await verifyPassword(password, storedPasswordHash);
+  } else {
+    // It's plain text (old account) - migrate it
+    const inputHash = await hashPassword(password);
+    if (storedPasswordHash === password) {
+      // Password matches plain text - migrate to hash
+      localStorage.setItem(`coda.password.${sanitizedEmail}`, inputHash);
+      passwordValid = true;
+    } else {
+      passwordValid = false;
+    }
+  }
+
   if (!passwordValid) {
     recordFailedLogin(sanitizedEmail);
     return { success: false, error: "Invalid email or password" };
