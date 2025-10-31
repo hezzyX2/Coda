@@ -12,7 +12,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://coda.app"),
+  metadataBase: process.env.NEXT_PUBLIC_SITE_URL 
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+    : new URL("https://coda.app"),
   openGraph: {
     title: "Coda - AI-Powered Student Organizer",
     description: "Organize your day with AI. Plan tasks, journal your thoughts, and get personalized advice.",
