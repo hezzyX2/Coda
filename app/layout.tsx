@@ -11,9 +11,10 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Nav } from "@/components/Nav";
 import { AuthGuard } from "@/components/AuthGuard";
 import { metadata } from "./metadata";
+import { viewport } from "./viewport";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
-export { metadata };
+export { metadata, viewport };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

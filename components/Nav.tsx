@@ -60,13 +60,9 @@ export function Nav() {
         <Link href="/premium" className="premium-link">
           {isPremium() ? "✨ Premium" : "Upgrade"}
         </Link>
-        {(() => {
-          const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "";
-          const currentUser = getCurrentUser();
-          return adminEmail && currentUser?.email === adminEmail ? (
-            <Link href="/admin" className="admin-link">Admin</Link>
-          ) : null;
-        })()}
+        {process.env.NEXT_PUBLIC_ADMIN_EMAIL && getCurrentUser()?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
+          <Link href="/admin" className="admin-link">Admin</Link>
+        )}
       </nav>
       <div className="nav-actions">
         {user && (
