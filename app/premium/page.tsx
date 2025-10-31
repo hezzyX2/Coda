@@ -154,22 +154,30 @@ export default function PremiumPage() {
 
         <div className="premium-benefits">
           <h2>What you get with Premium</h2>
+          <p className="premium-intro">
+            Transform your academic journey with AI-powered guidance designed specifically for students. 
+            Premium unlocks powerful features that help you succeed academically and personally.
+          </p>
           <div className="benefits-grid">
             <div className="benefit-card">
               <div className="benefit-icon">💬</div>
               <h3>AI Chat</h3>
-              <p>Get unlimited access to chat with Coda about anything - academics, relationships, personal growth, and more.</p>
+              <p>Unlimited 24/7 access to chat with Coda about anything - academics, relationships, personal growth, and life challenges. Get thoughtful, empathetic advice whenever you need it.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">📊</div>
               <h3>Journal Analysis</h3>
-              <p>Deep AI analysis of your journal entries to discover patterns, insights, and personalized growth advice.</p>
+              <p>Deep AI analysis of your journal entries reveals patterns, emotional trends, and growth opportunities. Discover insights about yourself and receive personalized recommendations.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">✨</div>
               <h3>Enhanced Advice</h3>
-              <p>Receive more detailed, comprehensive AI guidance tailored specifically to your needs and goals.</p>
+              <p>Get comprehensive, detailed AI guidance that's 2-4x more thorough. Receive step-by-step instructions, multiple strategies, and real-world examples tailored to your goals.</p>
             </div>
+          </div>
+          <div className="premium-value">
+            <h3>Invest in Yourself</h3>
+            <p>All this for just <strong>$9.99/month</strong> - less than the cost of a coffee per week. Cancel anytime, no commitment required.</p>
           </div>
         </div>
       </div>
