@@ -35,15 +35,31 @@ function sortTasks(tasks: Task[], bias: Preferences["difficultyBias"]): Task[] {
 
 export function buildPlan(tasks: Task[], prefs: Preferences | null): Plan {
   if (!prefs) return { blocks: [] };
+  
+  // Validate preference values to prevent invalid dates
+  const focusMins = prefs.focusBlocksMins || 25;
+  const breakMins = prefs.breakMins || 5;
+  
+  if (!Number.isFinite(focusMins) || !Number.isFinite(breakMins)) {
+    return { blocks: [] };
+  }
+  
   const start = new Date();
+  if (isNaN(start.getTime())) return { blocks: [] };
+  
   const blocks: PlanBlock[] = [];
   let cursor = new Date(start);
+  if (isNaN(cursor.getTime())) return { blocks: [] };
+  
   const sorted = sortTasks(tasks, prefs.difficultyBias);
 
   for (const t of sorted) {
     // Focus block
     const focusStart = new Date(cursor);
-    const focusEnd = new Date(cursor.getTime() + prefs.focusBlocksMins * 60000);
+    if (isNaN(focusStart.getTime())) break;
+    
+    const focusEnd = new Date(cursor.getTime() + focusMins * 60000);
+    if (isNaN(focusEnd.getTime())) break;
     blocks.push({
       id: `${t.id}-focus-${focusStart.getTime()}`,
       type: "focus",
@@ -54,10 +70,14 @@ export function buildPlan(tasks: Task[], prefs: Preferences | null): Plan {
       estimateMins: t.estimateMins
     });
     cursor = focusEnd;
+    if (isNaN(cursor.getTime())) break;
 
     // Break block
     const breakStart = new Date(cursor);
-    const breakEnd = new Date(cursor.getTime() + prefs.breakMins * 60000);
+    if (isNaN(breakStart.getTime())) break;
+    
+    const breakEnd = new Date(cursor.getTime() + breakMins * 60000);
+    if (isNaN(breakEnd.getTime())) break;
     blocks.push({
       id: `${t.id}-break-${breakStart.getTime()}`,
       type: "break",
@@ -65,6 +85,7 @@ export function buildPlan(tasks: Task[], prefs: Preferences | null): Plan {
       endTime: formatTime(breakEnd)
     });
     cursor = breakEnd;
+    if (isNaN(cursor.getTime())) break;
 
     // Cap plan to roughly 8 blocks for readability
     if (blocks.length >= 8) break;
