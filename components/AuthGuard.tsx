@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { isAuthenticated } from "@/lib/auth";
+import { isAuthenticated, verifySession } from "@/lib/auth";
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -18,7 +18,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     const publicPaths = ["/login", "/signup"];
     const isPublic = publicPaths.includes(pathname);
 
-    if (!isPublic && !isAuthenticated()) {
+    // Verify session is valid, not just that auth exists
+    if (!isPublic && (!isAuthenticated() || !verifySession())) {
       router.push("/login");
     }
   }, [mounted, pathname, router]);

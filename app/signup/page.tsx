@@ -25,13 +25,18 @@ export default function SignupPage() {
 
     setLoading(true);
 
-    const result = signup(email, password, name);
-    
-    if (result.success) {
-      router.push("/");
-      router.refresh();
-    } else {
-      setError(result.error || "Sign up failed");
+    try {
+      const result = await signup(email, password, name);
+      
+      if (result.success) {
+        router.push("/");
+        router.refresh();
+      } else {
+        setError(result.error || "Sign up failed");
+        setLoading(false);
+      }
+    } catch (err: any) {
+      setError("An error occurred. Please try again.");
       setLoading(false);
     }
   }
@@ -93,9 +98,11 @@ export default function SignupPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
-              minLength={6}
+              minLength={8}
             />
-            <small className="form-hint">At least 6 characters</small>
+            <small className="form-hint">
+              Must be at least 8 characters with uppercase, lowercase, number, and special character
+            </small>
           </div>
 
           <div className="form-group">

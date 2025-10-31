@@ -1,5 +1,15 @@
 "use client";
 import { migrateUserData } from "./storage";
+import {
+  hashPassword,
+  verifyPassword,
+  isValidEmail,
+  validatePasswordStrength,
+  checkRateLimit,
+  recordFailedLogin,
+  clearFailedLogins,
+  generateSessionToken,
+} from "./security";
 
 export interface User {
   email: string;
@@ -13,6 +23,7 @@ export interface User {
 }
 
 const AUTH_KEY = "coda.auth.v1";
+const SESSION_TOKEN_KEY = "coda.session_token";
 
 export function isAuthenticated(): boolean {
   if (typeof window === "undefined") return false;
@@ -31,81 +42,133 @@ export function getCurrentUser(): User | null {
   }
 }
 
-export function login(email: string, password: string): { success: boolean; error?: string } {
+export async function login(email: string, password: string): Promise<{ success: boolean; error?: string }> {
   if (!email || !password) {
     return { success: false, error: "Email and password are required" };
   }
 
-  // Simple validation
-  if (!email.includes("@")) {
-    return { success: false, error: "Invalid email address" };
+  // Sanitize email input
+  const sanitizedEmail = email.trim().toLowerCase();
+
+  // Validate email format
+  if (!isValidEmail(sanitizedEmail)) {
+    return { success: false, error: "Invalid email address format" };
   }
 
-  if (password.length < 6) {
-    return { success: false, error: "Password must be at least 6 characters" };
+  // Check rate limiting
+  const rateLimit = checkRateLimit(sanitizedEmail);
+  if (!rateLimit.allowed) {
+    const lockoutMinutes = rateLimit.lockoutUntil
+      ? Math.ceil((rateLimit.lockoutUntil - Date.now()) / 60000)
+      : 15;
+    return {
+      success: false,
+      error: `Too many failed login attempts. Please try again in ${lockoutMinutes} minutes.`,
+    };
   }
 
   // Check if user exists
   const users = getAllUsers();
-  const user = users.find(u => u.email === email);
+  const user = users.find(u => u.email.toLowerCase() === sanitizedEmail);
   
   if (!user) {
-    return { success: false, error: "User not found. Please sign up first." };
+    // Record failed attempt even if user doesn't exist (prevents email enumeration)
+    recordFailedLogin(sanitizedEmail);
+    return { success: false, error: "Invalid email or password" };
   }
 
-  // Simple password check (in real app, this would hash/verify)
-  const storedPassword = localStorage.getItem(`coda.password.${email}`);
-  if (storedPassword !== password) {
-    return { success: false, error: "Incorrect password" };
+  // Verify password (hashed)
+  const storedPasswordHash = localStorage.getItem(`coda.password.${sanitizedEmail}`);
+  if (!storedPasswordHash) {
+    recordFailedLogin(sanitizedEmail);
+    return { success: false, error: "Invalid email or password" };
   }
 
-  // Set current session
-  localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+  const passwordValid = await verifyPassword(password, storedPasswordHash);
+  if (!passwordValid) {
+    recordFailedLogin(sanitizedEmail);
+    return { success: false, error: "Invalid email or password" };
+  }
+
+  // Clear failed login attempts on success
+  clearFailedLogins(sanitizedEmail);
+
+  // Generate secure session token
+  const sessionToken = generateSessionToken();
+  localStorage.setItem(SESSION_TOKEN_KEY, sessionToken);
+
+  // Set current session (with sanitized email)
+  const currentUser = { ...user, email: sanitizedEmail };
+  localStorage.setItem(AUTH_KEY, JSON.stringify(currentUser));
   
   // Migrate any old global data to user-specific storage
-  migrateUserData(user.email);
+  migrateUserData(sanitizedEmail);
   
   return { success: true };
 }
 
-export function signup(email: string, password: string, name: string): { success: boolean; error?: string } {
+export async function signup(email: string, password: string, name: string): Promise<{ success: boolean; error?: string }> {
   if (!email || !password || !name) {
     return { success: false, error: "All fields are required" };
   }
 
-  if (!email.includes("@")) {
-    return { success: false, error: "Invalid email address" };
+  // Sanitize inputs
+  const sanitizedEmail = email.trim().toLowerCase();
+  const sanitizedName = name.trim();
+
+  // Validate email format
+  if (!isValidEmail(sanitizedEmail)) {
+    return { success: false, error: "Invalid email address format" };
   }
 
-  if (password.length < 6) {
-    return { success: false, error: "Password must be at least 6 characters" };
+  // Validate name
+  if (sanitizedName.length < 2) {
+    return { success: false, error: "Name must be at least 2 characters" };
+  }
+
+  if (sanitizedName.length > 50) {
+    return { success: false, error: "Name must be less than 50 characters" };
+  }
+
+  // Validate password strength
+  const passwordValidation = validatePasswordStrength(password);
+  if (!passwordValidation.valid) {
+    return {
+      success: false,
+      error: passwordValidation.errors.join(". "),
+    };
   }
 
   // Check if user already exists
   const users = getAllUsers();
-  if (users.find(u => u.email === email)) {
+  if (users.find(u => u.email.toLowerCase() === sanitizedEmail)) {
     return { success: false, error: "Email already registered" };
   }
 
+  // Hash password before storing
+  const passwordHash = await hashPassword(password);
+
   // Create new user (default to free tier)
   const newUser: User = {
-    email,
-    name,
+    email: sanitizedEmail,
+    name: sanitizedName,
     createdAt: new Date().toISOString(),
     isPremium: false
   };
 
-  // Store user and password
+  // Store user and hashed password
   users.push(newUser);
   localStorage.setItem("coda.users.v1", JSON.stringify(users));
-  localStorage.setItem(`coda.password.${email}`, password);
+  localStorage.setItem(`coda.password.${sanitizedEmail}`, passwordHash);
+  
+  // Generate secure session token
+  const sessionToken = generateSessionToken();
+  localStorage.setItem(SESSION_TOKEN_KEY, sessionToken);
+  
   localStorage.setItem(AUTH_KEY, JSON.stringify(newUser));
   
   // Initialize user-specific data storage
-  // User data will be saved when they start using the app
-  
-  // Migrate any old global data to user-specific storage
-  migrateUserData(email);
+  migrateUserData(sanitizedEmail);
 
   return { success: true };
 }
@@ -113,13 +176,35 @@ export function signup(email: string, password: string, name: string): { success
 export function logout(): void {
   if (typeof window === "undefined") return;
   
-  // Clear current session
+  // Clear current session and token
   localStorage.removeItem(AUTH_KEY);
+  localStorage.removeItem(SESSION_TOKEN_KEY);
   
   // Clear any temporary data (from when user wasn't logged in)
   localStorage.removeItem("coda.tasks.temp");
   localStorage.removeItem("coda.journal.temp");
   localStorage.removeItem("coda.prefs.temp");
+}
+
+/**
+ * Verify current session is valid
+ */
+export function verifySession(): boolean {
+  if (typeof window === "undefined") return false;
+  
+  const auth = localStorage.getItem(AUTH_KEY);
+  const token = localStorage.getItem(SESSION_TOKEN_KEY);
+  
+  if (!auth || !token) {
+    return false;
+  }
+
+  try {
+    const user = JSON.parse(auth) as User;
+    return !!(user && user.email);
+  } catch {
+    return false;
+  }
 }
 
 function getAllUsers(): User[] {

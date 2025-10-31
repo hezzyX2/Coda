@@ -17,13 +17,18 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    const result = login(email, password);
-    
-    if (result.success) {
-      router.push("/");
-      router.refresh();
-    } else {
-      setError(result.error || "Login failed");
+    try {
+      const result = await login(email, password);
+      
+      if (result.success) {
+        router.push("/");
+        router.refresh();
+      } else {
+        setError(result.error || "Login failed");
+        setLoading(false);
+      }
+    } catch (err: any) {
+      setError("An error occurred. Please try again.");
       setLoading(false);
     }
   }
