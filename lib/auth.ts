@@ -1,4 +1,5 @@
 "use client";
+import { migrateUserData } from "./storage";
 
 export interface User {
   email: string;
@@ -62,9 +63,7 @@ export function login(email: string, password: string): { success: boolean; erro
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
   
   // Migrate any old global data to user-specific storage
-  import("./storage").then(({ migrateUserData }) => {
-    migrateUserData(user.email);
-  });
+  migrateUserData(user.email);
   
   return { success: true };
 }
@@ -106,9 +105,7 @@ export function signup(email: string, password: string, name: string): { success
   // User data will be saved when they start using the app
   
   // Migrate any old global data to user-specific storage
-  import("./storage").then(({ migrateUserData }) => {
-    migrateUserData(email);
-  });
+  migrateUserData(email);
 
   return { success: true };
 }
