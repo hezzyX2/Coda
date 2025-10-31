@@ -45,17 +45,11 @@ export default function PremiumPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        // If Stripe not configured, fall back to free upgrade (for testing)
+        // Payment is required - no free upgrades
         if (data.error?.includes("Stripe not configured")) {
-          const result = upgradeToPremium();
-          if (result.success) {
-            router.push("/?upgraded=true");
-            router.refresh();
-          } else {
-            setError(result.error || "Upgrade failed");
-          }
+          setError("Payment system is not available. Please contact support or try again later.");
         } else {
-          throw new Error(data.error || "Failed to create checkout session");
+          setError(data.error || "Failed to create checkout session. Please try again.");
         }
         setLoading(false);
         return;
