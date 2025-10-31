@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 
 const ADMIN_KEY = process.env.ADMIN_API_KEY || "";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     // Verify admin access (in production, use proper authentication)
