@@ -60,6 +60,12 @@ export function login(email: string, password: string): { success: boolean; erro
 
   // Set current session
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+  
+  // Migrate any old global data to user-specific storage
+  import("./storage").then(({ migrateUserData }) => {
+    migrateUserData(user.email);
+  });
+  
   return { success: true };
 }
 
@@ -95,13 +101,28 @@ export function signup(email: string, password: string, name: string): { success
   localStorage.setItem("coda.users.v1", JSON.stringify(users));
   localStorage.setItem(`coda.password.${email}`, password);
   localStorage.setItem(AUTH_KEY, JSON.stringify(newUser));
+  
+  // Initialize user-specific data storage
+  // User data will be saved when they start using the app
+  
+  // Migrate any old global data to user-specific storage
+  import("./storage").then(({ migrateUserData }) => {
+    migrateUserData(email);
+  });
 
   return { success: true };
 }
 
 export function logout(): void {
   if (typeof window === "undefined") return;
+  
+  // Clear current session
   localStorage.removeItem(AUTH_KEY);
+  
+  // Clear any temporary data (from when user wasn't logged in)
+  localStorage.removeItem("coda.tasks.temp");
+  localStorage.removeItem("coda.journal.temp");
+  localStorage.removeItem("coda.prefs.temp");
 }
 
 function getAllUsers(): User[] {
