@@ -45,9 +45,13 @@ export default function PremiumPage() {
 
       if (!res.ok) {
         const data = await res.json();
+        console.error("[Premium] Payment error:", data);
+        
         // Payment is required - no free upgrades
-        if (data.error?.includes("Stripe not configured")) {
-          setError("Payment system is not available. Please contact support or try again later.");
+        if (data.error?.includes("Stripe not configured") || data.error?.includes("STRIPE_SECRET_KEY")) {
+          setError("Payment system is not configured. Please add STRIPE_SECRET_KEY to Vercel environment variables and redeploy.");
+        } else if (data.error?.includes("authentication") || data.error?.includes("Invalid")) {
+          setError("Stripe authentication failed. Please check your Stripe API key is correct in Vercel.");
         } else {
           setError(data.error || "Failed to create checkout session. Please try again.");
         }

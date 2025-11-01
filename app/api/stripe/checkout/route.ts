@@ -89,7 +89,28 @@ export async function POST(req: NextRequest) {
     return Response.json({ sessionId: session.id, url: session.url });
   } catch (err: any) {
     console.error("[Stripe Checkout] Error:", err);
-    return Response.json({ error: err?.message || "Failed to create checkout session" }, { status: 500 });
+    console.error("[Stripe Checkout] Error details:", {
+      message: err?.message,
+      type: err?.type,
+      code: err?.code,
+      statusCode: err?.statusCode,
+      raw: err?.raw,
+    });
+    
+    // Provide more helpful error messages
+    let errorMessage = "Failed to create checkout session";
+    if (err?.type === "StripeInvalidRequestError") {
+      errorMessage = "Invalid Stripe request. Please check your Stripe key is correct.";
+    } else if (err?.code === "authentication_required") {
+      errorMessage = "Stripe authentication failed. Please check your API key.";
+    } else if (err?.message) {
+      errorMessage = err.message;
+    }
+    
+    return Response.json({ 
+      error: errorMessage,
+      details: process.env.NODE_ENV === "development" ? err?.message : undefined
+    }, { status: 500 });
   }
 }
 
