@@ -18,11 +18,25 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Missing user information" }, { status: 400 });
     }
 
+    // Detailed diagnostic logging
+    const hasKey = !!process.env.STRIPE_SECRET_KEY;
+    const keyLength = process.env.STRIPE_SECRET_KEY?.length || 0;
+    const keyPrefix = hasKey ? process.env.STRIPE_SECRET_KEY?.substring(0, 12) : "none";
+    
+    console.log("[Stripe Checkout] Configuration check:", {
+      hasKey,
+      keyLength,
+      keyPrefix: hasKey ? `${keyPrefix}...` : "not set",
+      stripeInitialized: !!stripe,
+      nodeEnv: process.env.NODE_ENV,
+    });
+
     // Check if Stripe is configured with better error messaging
     if (!process.env.STRIPE_SECRET_KEY) {
       console.error("[Stripe Checkout] STRIPE_SECRET_KEY environment variable is not set");
+      console.error("[Stripe Checkout] This usually means you need to redeploy after adding the variable in Vercel");
       return Response.json({ 
-        error: "Stripe not configured. STRIPE_SECRET_KEY environment variable is missing. Please add it in Vercel environment variables." 
+        error: "Stripe not configured. STRIPE_SECRET_KEY environment variable is missing. You may need to redeploy in Vercel after adding the variable." 
       }, { status: 500 });
     }
 
