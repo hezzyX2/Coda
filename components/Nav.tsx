@@ -64,17 +64,17 @@ export function Nav() {
           {mobileMenuOpen ? "✕" : "☰"}
         </button>
         <nav className={`links desktop-nav`}>
-          <Link href="/home">Home</Link>
-          <Link href="/">Dashboard</Link>
-          <Link href="/tasks">Tasks</Link>
-          <Link href="/journal">Journal</Link>
-          <Link href="/habits">Habits</Link>
-          <Link href="/study">Study</Link>
-          <Link href="/writing">Writing</Link>
-          <Link href="/analytics">Analytics</Link>
-          <Link href="/chat">Chat {!isPremium() && <span className="premium-icon">✨</span>}</Link>
-          <Link href="/wisdom">Wisdom</Link>
-          <Link href="/premium" className="premium-link">
+          <Link href="/home" className={pathname === "/home" ? "active" : ""}>Home</Link>
+          <Link href="/" className={pathname === "/" ? "active" : ""}>Dashboard</Link>
+          <Link href="/tasks" className={pathname === "/tasks" ? "active" : ""}>Tasks</Link>
+          <Link href="/journal" className={pathname === "/journal" ? "active" : ""}>Journal</Link>
+          <Link href="/habits" className={pathname === "/habits" ? "active" : ""}>Habits</Link>
+          <Link href="/study" className={pathname === "/study" ? "active" : ""}>Study</Link>
+          <Link href="/writing" className={pathname === "/writing" ? "active" : ""}>Writing</Link>
+          <Link href="/analytics" className={pathname === "/analytics" ? "active" : ""}>Analytics</Link>
+          <Link href="/chat" className={pathname === "/chat" ? "active" : ""}>Chat {!isPremium() && <span className="premium-icon">✨</span>}</Link>
+          <Link href="/wisdom" className={pathname === "/wisdom" ? "active" : ""}>Wisdom</Link>
+          <Link href="/premium" className={`premium-link ${pathname === "/premium" ? "active" : ""}`}>
             {isPremium() ? "✨ Premium" : "Upgrade"}
           </Link>
           {process.env.NEXT_PUBLIC_ADMIN_EMAIL && getCurrentUser()?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
