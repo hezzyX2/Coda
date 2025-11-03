@@ -685,9 +685,7 @@ body {
 .glass { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
 
-.input { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px; width: 100%; }
-.input.compact { padding: 6px 10px; width: auto; }
-.textarea { resize: vertical; }
+/* Input styles are defined earlier - removing duplicate */
 .btn { background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 10px; cursor: pointer; }
 .btn.primary { background: linear-gradient(135deg, var(--primary), #7aa2ff); border: none; }
 .btn.danger { background: linear-gradient(135deg, var(--danger), #ff9aa2); border: none; }
