@@ -359,9 +359,7 @@ export default function ProfilePage() {
           </div>
           <div className="info-row">
             <span className="info-label">Sign-in Method:</span>
-            <span className="info-value">
-              {user.authProvider === "google" ? "Google" : "Email"}
-            </span>
+            <span className="info-value">Email</span>
           </div>
         </div>
       </div>

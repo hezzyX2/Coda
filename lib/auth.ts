@@ -20,9 +20,6 @@ export interface User {
   stripeSubscriptionId?: string;
   subscriptionStatus?: "active" | "canceled" | "past_due" | "trialing";
   subscriptionExpiresAt?: string;
-  authProvider?: "email" | "google";
-  googleId?: string;
-  profileImage?: string;
 }
 
 const AUTH_KEY = "codak.auth.v1";
@@ -86,37 +83,56 @@ export async function login(email: string, password: string): Promise<{ success:
     return { success: false, error: "Invalid email or password" };
   }
 
-  // Google OAuth users don't have passwords
-  if (user.authProvider === "google") {
-    return { success: false, error: "This account uses Google sign-in. Please sign in with Google." };
-  }
-
-  // Verify password - check both new and legacy key formats
+  // Verify password - comprehensive key checking for maximum compatibility
   const passwordKey = `codak.password.${sanitizedEmail}`;
   const legacyPasswordKey = `coda.password.${sanitizedEmail}`;
   
+  // Try primary keys first
   let storedPasswordHash = localStorage.getItem(passwordKey) || localStorage.getItem(legacyPasswordKey);
   
-  // Try alternative email formats (in case email casing is different)
+  // Try alternative email formats (in case email casing is different in stored user)
   if (!storedPasswordHash && user.email !== sanitizedEmail) {
     const altNewKey = `codak.password.${user.email.toLowerCase()}`;
     const altLegacyKey = `coda.password.${user.email.toLowerCase()}`;
     storedPasswordHash = localStorage.getItem(altNewKey) || localStorage.getItem(altLegacyKey);
   }
   
+  // Last resort: search all password keys and try to find a match
   if (!storedPasswordHash) {
-    console.error(`[Auth] No password found for email: ${sanitizedEmail}`);
+    const allPasswordKeys = Object.keys(localStorage).filter(k => 
+      k.includes('password') && (k.includes(sanitizedEmail) || k.includes(user.email.toLowerCase()))
+    );
+    
+    if (allPasswordKeys.length > 0) {
+      // Try the first matching key
+      storedPasswordHash = localStorage.getItem(allPasswordKeys[0]);
+      console.log(`[Auth] Found password in alternative key: ${allPasswordKeys[0]}`);
+      
+      // Migrate to standard keys
+      if (storedPasswordHash) {
+        localStorage.setItem(passwordKey, storedPasswordHash);
+        localStorage.setItem(legacyPasswordKey, storedPasswordHash);
+      }
+    }
+  }
+  
+  if (!storedPasswordHash) {
+    console.error(`[Auth] ✗ No password found for email: ${sanitizedEmail}`);
     console.error(`[Auth] Checked keys: ${passwordKey}, ${legacyPasswordKey}`);
-    console.error(`[Auth] All password keys in storage:`, 
-      Object.keys(localStorage).filter(k => k.includes('password')));
     console.error(`[Auth] User email from list: ${user.email}`);
+    console.error(`[Auth] All password keys:`, Object.keys(localStorage).filter(k => k.includes('password')));
     recordFailedLogin(sanitizedEmail);
     return { success: false, error: "Invalid email or password. Please check your credentials." };
   }
   
-  // If found in legacy key, also store in new key for future
-  if (storedPasswordHash && !localStorage.getItem(passwordKey)) {
-    localStorage.setItem(passwordKey, storedPasswordHash);
+  // Ensure password exists in both key formats for future logins
+  if (storedPasswordHash) {
+    if (!localStorage.getItem(passwordKey)) {
+      localStorage.setItem(passwordKey, storedPasswordHash);
+    }
+    if (!localStorage.getItem(legacyPasswordKey)) {
+      localStorage.setItem(legacyPasswordKey, storedPasswordHash);
+    }
   }
 
   // Check if password is stored as hash (SHA-256 = 64 hex chars)
@@ -210,24 +226,34 @@ export async function signup(email: string, password: string, name: string): Pro
     email: sanitizedEmail,
     name: sanitizedName,
     createdAt: new Date().toISOString(),
-    isPremium: false,
-    authProvider: "email"
+    isPremium: false
   };
 
   // Store user and hashed password
   users.push(newUser);
   localStorage.setItem("codak.users.v1", JSON.stringify(users));
   
-  // Store password hash - use both new and legacy keys for compatibility
+  // Store password hash - use both new and legacy keys for maximum compatibility
   const passwordKey = `codak.password.${sanitizedEmail}`;
   const legacyPasswordKey = `coda.password.${sanitizedEmail}`;
   
+  // Store in both locations to ensure it's always found
   localStorage.setItem(passwordKey, passwordHash);
-  // Also store in legacy format for backwards compatibility
   localStorage.setItem(legacyPasswordKey, passwordHash);
   
-  console.log(`[Auth] Created account for: ${sanitizedEmail}`);
-  console.log(`[Auth] Password hash stored at: ${passwordKey} and ${legacyPasswordKey}`);
+  // Verify it was stored correctly
+  const verifyNew = localStorage.getItem(passwordKey);
+  const verifyLegacy = localStorage.getItem(legacyPasswordKey);
+  
+  if (verifyNew !== passwordHash || verifyLegacy !== passwordHash) {
+    console.error(`[Auth] WARNING: Password storage verification failed for ${sanitizedEmail}`);
+    // Try again
+    localStorage.setItem(passwordKey, passwordHash);
+    localStorage.setItem(legacyPasswordKey, passwordHash);
+  }
+  
+  console.log(`[Auth] ✓ Created account for: ${sanitizedEmail}`);
+  console.log(`[Auth] ✓ Password hash stored and verified`);
 
   // Generate secure session token
   const sessionToken = generateSessionToken();
@@ -238,65 +264,6 @@ export async function signup(email: string, password: string, name: string): Pro
   // Initialize user-specific data storage
   migrateUserData(sanitizedEmail);
 
-  return { success: true };
-}
-
-export async function signInWithGoogle(googleUser: {
-  email: string;
-  name: string;
-  googleId: string;
-  profileImage?: string;
-}): Promise<{ success: boolean; error?: string }> {
-  const sanitizedEmail = googleUser.email.trim().toLowerCase();
-  
-  if (!isValidEmail(sanitizedEmail)) {
-    return { success: false, error: "Invalid email address" };
-  }
-
-  const users = getAllUsers();
-  let user = users.find(u => u.email.toLowerCase() === sanitizedEmail);
-  
-  if (user) {
-    // User exists - update if needed
-    if (user.authProvider !== "google" && !user.googleId) {
-      // Existing email user - link Google account
-      user.authProvider = "google";
-      user.googleId = googleUser.googleId;
-      if (googleUser.profileImage) user.profileImage = googleUser.profileImage;
-      
-      const userIndex = users.findIndex(u => u.email.toLowerCase() === sanitizedEmail);
-      users[userIndex] = user;
-      localStorage.setItem("codak.users.v1", JSON.stringify(users));
-    } else if (user.googleId !== googleUser.googleId) {
-      return { success: false, error: "This Google account is already linked to another email." };
-    }
-  } else {
-    // New user - create account
-    user = {
-      email: sanitizedEmail,
-      name: googleUser.name,
-      createdAt: new Date().toISOString(),
-      isPremium: false,
-      authProvider: "google",
-      googleId: googleUser.googleId,
-      profileImage: googleUser.profileImage
-    };
-    
-    users.push(user);
-    localStorage.setItem("codak.users.v1", JSON.stringify(users));
-  }
-
-  // Generate secure session token
-  const sessionToken = generateSessionToken();
-  localStorage.setItem(SESSION_TOKEN_KEY, sessionToken);
-  
-  // Set current session
-  localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  
-  // Initialize user-specific data storage
-  migrateUserData(sanitizedEmail);
-  
-  console.log(`[Auth] Google sign-in successful for: ${sanitizedEmail}`);
   return { success: true };
 }
 
@@ -373,12 +340,15 @@ function getAllUsers(): User[] {
   if (!stored) return [];
   try {
     const users = JSON.parse(stored) as User[];
-    // Migrate old users without isPremium field
-    return users.map(u => ({
-      ...u,
-      isPremium: u.isPremium ?? false,
-      authProvider: u.authProvider ?? "email"
-    }));
+    // Clean up users - remove any Google-related fields and ensure required fields exist
+    return users.map(u => {
+      const { authProvider, googleId, profileImage, ...cleanUser } = u as any;
+      return {
+        ...cleanUser,
+        isPremium: cleanUser.isPremium ?? false,
+        email: cleanUser.email?.toLowerCase() || cleanUser.email // Ensure lowercase
+      };
+    });
   } catch {
     return [];
   }

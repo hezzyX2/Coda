@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signup } from "@/lib/auth";
 import { DiamondLogo } from "@/components/DiamondLogo";
-import { GoogleSignIn } from "@/components/GoogleSignIn";
 import Link from "next/link";
 
 export default function SignupPage() {
@@ -131,20 +130,6 @@ export default function SignupPage() {
             {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
-
-        <div className="auth-divider">
-          <span>or</span>
-        </div>
-
-        <GoogleSignIn 
-          onSuccess={() => {
-            setLoading(false);
-          }}
-          onError={(error) => {
-            setError(error);
-            setLoading(false);
-          }}
-        />
 
         <div className="auth-footer">
           <p>
