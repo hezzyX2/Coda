@@ -14,7 +14,7 @@ export default function ChatPage() {
   return (
     <div className="page fade-in">
       <div className="dashboard-header">
-        <h1 className="page-title">Chat with Codak AI</h1>
+        <h1 className="page-title">Chat with Codak</h1>
         <p className="page-subtitle">Get personalized advice and support from your advanced AI life coach</p>
       </div>
 

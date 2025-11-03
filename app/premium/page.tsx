@@ -91,10 +91,10 @@ export default function PremiumPage() {
         <div className="premium-status-card">
           <div className="premium-badge-large">✨ Premium</div>
           <h1>You're a Premium Member!</h1>
-          <p>Thank you for supporting Codak AI. Enjoy all premium features:</p>
+          <p>Thank you for supporting Codak. Enjoy all premium features:</p>
           <ul className="premium-features-list">
             <li>✅ AI Journal Analysis</li>
-            <li>✅ AI Chat with Codak AI</li>
+            <li>✅ AI Chat with Codak</li>
             <li>✅ Enhanced, detailed AI advice</li>
             <li>✅ Priority support</li>
           </ul>
@@ -112,7 +112,7 @@ export default function PremiumPage() {
             <DiamondLogo size={64} animated={true} />
           </div>
           <h1 className="premium-title">Upgrade to Premium</h1>
-          <p className="premium-subtitle">Unlock the full power of Codak AI</p>
+          <p className="premium-subtitle">Unlock the full power of Codak</p>
         </div>
 
         <div className="premium-comparison">
@@ -136,7 +136,7 @@ export default function PremiumPage() {
             <div className="plan-price">$9.99<span>/month</span></div>
             <ul className="plan-features">
               <li>✅ Everything in Free</li>
-              <li>✅ AI Chat with Codak AI</li>
+              <li>✅ AI Chat with Codak</li>
               <li>✅ Journal AI Analysis</li>
               <li>✅ Enhanced, detailed AI advice</li>
               <li>✅ Priority support</li>
@@ -166,7 +166,7 @@ export default function PremiumPage() {
             <div className="benefit-card">
               <div className="benefit-icon">💬</div>
               <h3>AI Chat</h3>
-              <p>Unlimited 24/7 access to chat with Codak AI about anything - academics, relationships, personal growth, and life challenges. Get thoughtful, empathetic advice whenever you need it.</p>
+              <p>Unlimited 24/7 access to chat with Codak about anything - academics, relationships, personal growth, and life challenges. Get thoughtful, empathetic advice whenever you need it.</p>
             </div>
             <div className="benefit-card">
               <div className="benefit-icon">📊</div>

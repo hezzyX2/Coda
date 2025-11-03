@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Codak AI - Advanced AI-Powered Student Success Platform",
+  title: "Codak - Advanced AI-Powered Student Success Platform",
   description: "The ultimate AI-powered platform for students. Advanced task management, intelligent study planning, habit tracking, mood analysis, and personalized AI coaching. Transform your academic journey with cutting-edge AI technology.",
-  keywords: ["Codak AI", "AI student platform", "AI productivity", "intelligent study planner", "AI habit tracker", "AI writing assistant", "student success", "AI coaching"],
-  authors: [{ name: "Codak AI" }],
-  creator: "Codak AI",
-  publisher: "Codak AI",
+  keywords: ["Codak", "AI student platform", "AI productivity", "intelligent study planner", "AI habit tracker", "AI writing assistant", "student success", "AI coaching"],
+  authors: [{ name: "Codak" }],
+  creator: "Codak",
+  publisher: "Codak",
   formatDetection: {
     email: false,
     address: false,
@@ -24,16 +24,16 @@ export const metadata: Metadata = {
     }
   })(),
   openGraph: {
-    title: "Codak AI - Advanced AI-Powered Student Success Platform",
+    title: "Codak - Advanced AI-Powered Student Success Platform",
     description: "Transform your academic journey with cutting-edge AI. Intelligent study planning, habit tracking, mood analysis, and personalized coaching.",
     url: "/",
-    siteName: "Codak AI",
+    siteName: "Codak",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Codak AI - Advanced AI-Powered Student Success Platform",
+    title: "Codak - Advanced AI-Powered Student Success Platform",
     description: "Transform your academic journey with cutting-edge AI. Intelligent study planning, habit tracking, and personalized coaching.",
   },
   robots: {

@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Codak AI - Advanced AI-Powered Student Success Platform',
-    short_name: 'Codak AI',
+    name: 'Codak - Advanced AI-Powered Student Success Platform',
+    short_name: 'Codak',
     description: 'Organize your day, plan your tasks, and get AI-powered advice',
     start_url: '/',
     display: 'standalone',
