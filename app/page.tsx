@@ -157,22 +157,6 @@ export default function DashboardPage() {
             <div className="action-icon">✨</div>
             <div className="action-text">Read Wisdom</div>
           </Link>
-          <Link href="/analytics" className="action-card">
-            <div className="action-icon">📊</div>
-            <div className="action-text">View Analytics</div>
-          </Link>
-          <Link href="/habits" className="action-card">
-            <div className="action-icon">🔥</div>
-            <div className="action-text">Track Habits</div>
-          </Link>
-          <Link href="/study" className="action-card">
-            <div className="action-icon">📚</div>
-            <div className="action-text">AI Study Plan</div>
-          </Link>
-          <Link href="/writing" className="action-card">
-            <div className="action-icon">✍️</div>
-            <div className="action-text">Writing Assistant</div>
-          </Link>
         </div>
       </section>
     </div>

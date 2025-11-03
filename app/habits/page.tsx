@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Habit } from "@/lib/models";
 import { loadHabits, saveHabits } from "@/lib/storage";
 import { DiamondLogo } from "@/components/DiamondLogo";
+import { HabitAnalysis } from "@/components/HabitAnalysis";
 
 export default function HabitsPage() {
   const [habits, setHabits] = useState<Habit[]>([]);
@@ -206,6 +207,17 @@ export default function HabitsPage() {
           )}
         </section>
       </div>
+
+      {/* AI Habit Analysis */}
+      {habits.length > 0 && (
+        <section className="card glass habit-analysis-section" style={{ marginTop: "32px" }}>
+          <div className="card-header">
+            <h2>🤖 AI Habit Analysis</h2>
+            <span className="card-subtitle">Get personalized insights on your habits</span>
+          </div>
+          <HabitAnalysis habits={habits} />
+        </section>
+      )}
     </div>
   );
 }
