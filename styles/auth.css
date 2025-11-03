@@ -185,6 +185,52 @@
   width: 100%;
 }
 
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  text-align: center;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-divider span {
+  padding: 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.google-sign-in {
+  width: 100%;
+  min-height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  background: white;
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.google-sign-in:hover {
+  background: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.google-sign-in:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .loading-screen {
   min-height: 100vh;
   display: flex;

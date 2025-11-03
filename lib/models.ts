@@ -67,4 +67,24 @@ export type Streak = {
   lastDate: string;
 };
 
+export type UserProfile = {
+  email: string;
+  name: string;
+  bio?: string;
+  school?: string;
+  grade?: string;
+  goals?: string[];
+  interests?: string[];
+  timezone?: string;
+  notificationPreferences?: {
+    email: boolean;
+    push: boolean;
+    reminders: boolean;
+  };
+  privacySettings?: {
+    shareAnalytics: boolean;
+    shareProgress: boolean;
+  };
+};
+
 

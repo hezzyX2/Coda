@@ -2402,5 +2402,131 @@ body::before {
   }
 }
 
+/* Profile Page Styles */
+.save-success {
+  background: rgba(88, 176, 140, 0.2);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: var(--accent);
+  font-weight: 600;
+  animation: fade-in 0.3s ease;
+}
+
+.tag-input-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.tag-input-group .input {
+  flex: 1;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(155, 135, 245, 0.2);
+  border: 1px solid rgba(155, 135, 245, 0.3);
+  border-radius: 16px;
+  font-size: 13px;
+  color: var(--accent-2);
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: var(--accent-2);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.tag-remove:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--danger);
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.setting-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.setting-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+.setting-item span {
+  flex: 1;
+  font-size: 14px;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+}
+
 
 

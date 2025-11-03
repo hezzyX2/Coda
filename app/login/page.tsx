@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/auth";
 import { DiamondLogo } from "@/components/DiamondLogo";
+import { GoogleSignIn } from "@/components/GoogleSignIn";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -90,6 +91,20 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+
+        <div className="auth-divider">
+          <span>or</span>
+        </div>
+
+        <GoogleSignIn 
+          onSuccess={() => {
+            setLoading(false);
+          }}
+          onError={(error) => {
+            setError(error);
+            setLoading(false);
+          }}
+        />
 
         <div className="auth-footer">
           <p>

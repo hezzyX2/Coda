@@ -74,6 +74,7 @@ export function Nav() {
           <Link href="/analytics" className={pathname === "/analytics" ? "active" : ""}>Analytics</Link>
           <Link href="/chat" className={pathname === "/chat" ? "active" : ""}>Chat {!isPremium() && <span className="premium-icon">✨</span>}</Link>
           <Link href="/wisdom" className={pathname === "/wisdom" ? "active" : ""}>Wisdom</Link>
+          <Link href="/profile" className={pathname === "/profile" ? "active" : ""}>Profile</Link>
           <Link href="/premium" className={`premium-link ${pathname === "/premium" ? "active" : ""}`}>
             {isPremium() ? "✨ Premium" : "Upgrade"}
           </Link>
@@ -110,6 +111,7 @@ export function Nav() {
           <Link href="/analytics" onClick={() => setMobileMenuOpen(false)}>Analytics</Link>
           <Link href="/chat" onClick={() => setMobileMenuOpen(false)}>Chat {!isPremium() && <span className="premium-icon">✨</span>}</Link>
           <Link href="/wisdom" onClick={() => setMobileMenuOpen(false)}>Wisdom</Link>
+          <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>Profile</Link>
           <Link href="/premium" className="premium-link" onClick={() => setMobileMenuOpen(false)}>
             {isPremium() ? "✨ Premium" : "Upgrade"}
           </Link>

@@ -20,10 +20,13 @@ export interface User {
   stripeSubscriptionId?: string;
   subscriptionStatus?: "active" | "canceled" | "past_due" | "trialing";
   subscriptionExpiresAt?: string;
+  authProvider?: "email" | "google";
+  googleId?: string;
+  profileImage?: string;
 }
 
-const AUTH_KEY = "coda.auth.v1";
-const SESSION_TOKEN_KEY = "coda.session_token";
+const AUTH_KEY = "codak.auth.v1";
+const SESSION_TOKEN_KEY = "codak.session_token";
 
 export function isAuthenticated(): boolean {
   if (typeof window === "undefined") return false;
@@ -78,38 +81,58 @@ export async function login(email: string, password: string): Promise<{ success:
   const user = users.find(u => u.email.toLowerCase() === sanitizedEmail);
   
   if (!user) {
-    // Record failed attempt even if user doesn't exist (prevents email enumeration)
+    console.error(`[Auth] User not found: ${sanitizedEmail}`);
     recordFailedLogin(sanitizedEmail);
     return { success: false, error: "Invalid email or password" };
   }
 
-  // Verify password (hashed or plain text for migration)
-  const storedPasswordHash = localStorage.getItem(`coda.password.${sanitizedEmail}`);
+  // Google OAuth users don't have passwords
+  if (user.authProvider === "google") {
+    return { success: false, error: "This account uses Google sign-in. Please sign in with Google." };
+  }
+
+  // Verify password - check multiple possible storage formats
+  const passwordKey = `codak.password.${sanitizedEmail}`;
+  let storedPasswordHash = localStorage.getItem(passwordKey);
+  
+  // Try legacy key format for migration
   if (!storedPasswordHash) {
+    const legacyKey = `coda.password.${sanitizedEmail}`;
+    storedPasswordHash = localStorage.getItem(legacyKey);
+    if (storedPasswordHash) {
+      // Migrate to new key format
+      localStorage.setItem(passwordKey, storedPasswordHash);
+      localStorage.removeItem(legacyKey);
+    }
+  }
+  
+  if (!storedPasswordHash) {
+    console.error(`[Auth] No password found for email: ${sanitizedEmail}`);
     recordFailedLogin(sanitizedEmail);
-    return { success: false, error: "Invalid email or password" };
+    return { success: false, error: "Invalid email or password. Please check your credentials." };
   }
 
-  // Check if password is stored as hash (starts with characters that indicate hash)
-  // or plain text (for accounts created before hashing was implemented)
+  // Check if password is stored as hash (SHA-256 = 64 hex chars)
   let passwordValid: boolean;
   
   if (storedPasswordHash.length === 64 && /^[a-f0-9]{64}$/.test(storedPasswordHash)) {
     // It's a hash - verify normally
     passwordValid = await verifyPassword(password, storedPasswordHash);
   } else {
-    // It's plain text (old account) - migrate it
+    // It might be plain text (old account) - migrate it
     const inputHash = await hashPassword(password);
     if (storedPasswordHash === password) {
       // Password matches plain text - migrate to hash
-      localStorage.setItem(`coda.password.${sanitizedEmail}`, inputHash);
+      localStorage.setItem(passwordKey, inputHash);
       passwordValid = true;
+      console.log(`[Auth] Migrated plain text password to hash for: ${sanitizedEmail}`);
     } else {
       passwordValid = false;
     }
   }
 
   if (!passwordValid) {
+    console.error(`[Auth] Password verification failed for: ${sanitizedEmail}`);
     recordFailedLogin(sanitizedEmail);
     return { success: false, error: "Invalid email or password" };
   }
@@ -128,6 +151,7 @@ export async function login(email: string, password: string): Promise<{ success:
   // Migrate any old global data to user-specific storage
   migrateUserData(sanitizedEmail);
   
+  console.log(`[Auth] Successful login for: ${sanitizedEmail}`);
   return { success: true };
 }
 
@@ -163,10 +187,12 @@ export async function signup(email: string, password: string, name: string): Pro
     };
   }
 
-  // Check if user already exists
+  // Check if user already exists (case-insensitive)
   const users = getAllUsers();
-  if (users.find(u => u.email.toLowerCase() === sanitizedEmail)) {
-    return { success: false, error: "Email already registered" };
+  const existingUser = users.find(u => u.email.toLowerCase() === sanitizedEmail);
+  if (existingUser) {
+    console.log(`[Auth] User already exists: ${sanitizedEmail}`);
+    return { success: false, error: "Email already registered. Please sign in instead." };
   }
 
   // Hash password before storing
@@ -177,14 +203,40 @@ export async function signup(email: string, password: string, name: string): Pro
     email: sanitizedEmail,
     name: sanitizedName,
     createdAt: new Date().toISOString(),
-    isPremium: false
+    isPremium: false,
+    authProvider: "email"
   };
 
   // Store user and hashed password
   users.push(newUser);
-  localStorage.setItem("coda.users.v1", JSON.stringify(users));
-  localStorage.setItem(`coda.password.${sanitizedEmail}`, passwordHash);
+  localStorage.setItem("codak.users.v1", JSON.stringify(users));
   
+  // Store password hash with consistent key format
+  const passwordKey = `codak.password.${sanitizedEmail}`;
+  localStorage.setItem(passwordKey, passwordHash);
+  
+  // Migrate from legacy keys if they exist
+  const legacyUserKey = "coda.users.v1";
+  const legacyPasswordKey = `coda.password.${sanitizedEmail}`;
+  const legacyUsers = localStorage.getItem(legacyUserKey);
+  if (legacyUsers) {
+    try {
+      const oldUsers = JSON.parse(legacyUsers);
+      const oldUser = oldUsers.find((u: any) => u.email?.toLowerCase() === sanitizedEmail);
+      if (oldUser) {
+        // User exists in old format, migrate
+        const oldPassword = localStorage.getItem(legacyPasswordKey);
+        if (oldPassword) {
+          localStorage.setItem(passwordKey, oldPassword);
+        }
+      }
+    } catch (e) {
+      console.error("[Auth] Error migrating legacy users:", e);
+    }
+  }
+  
+  console.log(`[Auth] Created account for: ${sanitizedEmail}, password hash stored at: ${passwordKey}`);
+
   // Generate secure session token
   const sessionToken = generateSessionToken();
   localStorage.setItem(SESSION_TOKEN_KEY, sessionToken);
@@ -194,6 +246,65 @@ export async function signup(email: string, password: string, name: string): Pro
   // Initialize user-specific data storage
   migrateUserData(sanitizedEmail);
 
+  return { success: true };
+}
+
+export async function signInWithGoogle(googleUser: {
+  email: string;
+  name: string;
+  googleId: string;
+  profileImage?: string;
+}): Promise<{ success: boolean; error?: string }> {
+  const sanitizedEmail = googleUser.email.trim().toLowerCase();
+  
+  if (!isValidEmail(sanitizedEmail)) {
+    return { success: false, error: "Invalid email address" };
+  }
+
+  const users = getAllUsers();
+  let user = users.find(u => u.email.toLowerCase() === sanitizedEmail);
+  
+  if (user) {
+    // User exists - update if needed
+    if (user.authProvider !== "google" && !user.googleId) {
+      // Existing email user - link Google account
+      user.authProvider = "google";
+      user.googleId = googleUser.googleId;
+      if (googleUser.profileImage) user.profileImage = googleUser.profileImage;
+      
+      const userIndex = users.findIndex(u => u.email.toLowerCase() === sanitizedEmail);
+      users[userIndex] = user;
+      localStorage.setItem("codak.users.v1", JSON.stringify(users));
+    } else if (user.googleId !== googleUser.googleId) {
+      return { success: false, error: "This Google account is already linked to another email." };
+    }
+  } else {
+    // New user - create account
+    user = {
+      email: sanitizedEmail,
+      name: googleUser.name,
+      createdAt: new Date().toISOString(),
+      isPremium: false,
+      authProvider: "google",
+      googleId: googleUser.googleId,
+      profileImage: googleUser.profileImage
+    };
+    
+    users.push(user);
+    localStorage.setItem("codak.users.v1", JSON.stringify(users));
+  }
+
+  // Generate secure session token
+  const sessionToken = generateSessionToken();
+  localStorage.setItem(SESSION_TOKEN_KEY, sessionToken);
+  
+  // Set current session
+  localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+  
+  // Initialize user-specific data storage
+  migrateUserData(sanitizedEmail);
+  
+  console.log(`[Auth] Google sign-in successful for: ${sanitizedEmail}`);
   return { success: true };
 }
 
@@ -239,8 +350,12 @@ export function verifySession(): boolean {
     
     // Sync user data from users list (in case premium status changed)
     const updatedUser = users.find(u => u.email.toLowerCase() === user.email.toLowerCase());
-    if (updatedUser && updatedUser.isPremium !== user.isPremium) {
-      localStorage.setItem(AUTH_KEY, JSON.stringify(updatedUser));
+    if (updatedUser) {
+      // Sync all fields
+      const syncedUser = { ...updatedUser, email: user.email };
+      if (JSON.stringify(syncedUser) !== JSON.stringify(user)) {
+        localStorage.setItem(AUTH_KEY, JSON.stringify(syncedUser));
+      }
     }
     
     return true;
@@ -251,14 +366,26 @@ export function verifySession(): boolean {
 
 function getAllUsers(): User[] {
   if (typeof window === "undefined") return [];
-  const stored = localStorage.getItem("coda.users.v1");
+  
+  // Try new key first
+  let stored = localStorage.getItem("codak.users.v1");
+  if (!stored) {
+    // Try legacy key
+    stored = localStorage.getItem("coda.users.v1");
+    if (stored) {
+      // Migrate to new key
+      localStorage.setItem("codak.users.v1", stored);
+    }
+  }
+  
   if (!stored) return [];
   try {
     const users = JSON.parse(stored) as User[];
     // Migrate old users without isPremium field
     return users.map(u => ({
       ...u,
-      isPremium: u.isPremium ?? false
+      isPremium: u.isPremium ?? false,
+      authProvider: u.authProvider ?? "email"
     }));
   } catch {
     return [];
@@ -292,9 +419,8 @@ export function upgradeToPremium(): { success: boolean; error?: string } {
   const userIndex = users.findIndex(u => u.email === user.email);
   if (userIndex !== -1) {
     users[userIndex] = updatedUser;
-    localStorage.setItem("coda.users.v1", JSON.stringify(users));
+    localStorage.setItem("codak.users.v1", JSON.stringify(users));
   }
 
   return { success: true };
 }
-
