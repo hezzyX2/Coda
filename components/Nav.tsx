@@ -79,7 +79,10 @@ export function Nav() {
             {isPremium() ? "✨ Premium" : "Upgrade"}
           </Link>
           {process.env.NEXT_PUBLIC_ADMIN_EMAIL && getCurrentUser()?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
-            <Link href="/admin" className="admin-link">Admin</Link>
+            <>
+              <Link href="/admin" className="admin-link">Admin</Link>
+              <Link href="/admin/logins" className="admin-link">Login Logs</Link>
+            </>
           )}
         </nav>
         <div className="nav-actions desktop-only">
@@ -116,7 +119,10 @@ export function Nav() {
             {isPremium() ? "✨ Premium" : "Upgrade"}
           </Link>
           {process.env.NEXT_PUBLIC_ADMIN_EMAIL && getCurrentUser()?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
-            <Link href="/admin" className="admin-link" onClick={() => setMobileMenuOpen(false)}>Admin</Link>
+            <>
+              <Link href="/admin" className="admin-link" onClick={() => setMobileMenuOpen(false)}>Admin</Link>
+              <Link href="/admin/logins" className="admin-link" onClick={() => setMobileMenuOpen(false)}>Login Logs</Link>
+            </>
           )}
           <div className="mobile-nav-footer">
             {user && (

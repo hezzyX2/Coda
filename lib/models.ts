@@ -87,4 +87,20 @@ export type UserProfile = {
   };
 };
 
+export type LoginLog = {
+  id: string;
+  email: string;
+  timestamp: string;
+  type: "login_attempt" | "login_success" | "login_failed" | "verification_sent" | "verification_success" | "verification_failed";
+  ipAddress?: string;
+  userAgent?: string;
+  success: boolean;
+  error?: string;
+};
 
+export type VerificationCode = {
+  email: string;
+  code: string;
+  expiresAt: number;
+  attempts: number;
+};
