@@ -28,7 +28,13 @@ const SESSION_TOKEN_KEY = "coda.session_token";
 export function isAuthenticated(): boolean {
   if (typeof window === "undefined") return false;
   const auth = localStorage.getItem(AUTH_KEY);
-  return auth !== null;
+  const token = localStorage.getItem(SESSION_TOKEN_KEY);
+  
+  // Both auth and token must exist
+  if (!auth || !token) return false;
+  
+  // Verify session is still valid
+  return verifySession();
 }
 
 export function getCurrentUser(): User | null {
@@ -205,7 +211,7 @@ export function logout(): void {
 }
 
 /**
- * Verify current session is valid
+ * Verify current session is valid and check if user still exists
  */
 export function verifySession(): boolean {
   if (typeof window === "undefined") return false;
@@ -219,7 +225,25 @@ export function verifySession(): boolean {
 
   try {
     const user = JSON.parse(auth) as User;
-    return !!(user && user.email);
+    if (!user || !user.email) return false;
+    
+    // Verify user still exists in the users list
+    const users = getAllUsers();
+    const userExists = users.some(u => u.email.toLowerCase() === user.email.toLowerCase());
+    
+    if (!userExists) {
+      // User was deleted, clear session
+      logout();
+      return false;
+    }
+    
+    // Sync user data from users list (in case premium status changed)
+    const updatedUser = users.find(u => u.email.toLowerCase() === user.email.toLowerCase());
+    if (updatedUser && updatedUser.isPremium !== user.isPremium) {
+      localStorage.setItem(AUTH_KEY, JSON.stringify(updatedUser));
+    }
+    
+    return true;
   } catch {
     return false;
   }

@@ -29,6 +29,8 @@ export default function SignupPage() {
       const result = await signup(email, password, name);
       
       if (result.success) {
+        // Small delay to ensure session is set
+        await new Promise(resolve => setTimeout(resolve, 100));
         router.push("/");
         router.refresh();
       } else {

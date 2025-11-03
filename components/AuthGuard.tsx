@@ -15,12 +15,18 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!mounted) return;
 
-    const publicPaths = ["/login", "/signup"];
+    const publicPaths = ["/login", "/signup", "/home"];
     const isPublic = publicPaths.includes(pathname);
 
-    // Verify session is valid, not just that auth exists
-    if (!isPublic && (!isAuthenticated() || !verifySession())) {
+    // Verify session is valid - isAuthenticated already checks verifySession
+    if (!isPublic && !isAuthenticated()) {
       router.push("/login");
+      return;
+    }
+
+    // If authenticated and on login/signup, redirect to dashboard
+    if (isPublic && pathname !== "/home" && isAuthenticated()) {
+      router.push("/");
     }
   }, [mounted, pathname, router]);
 
