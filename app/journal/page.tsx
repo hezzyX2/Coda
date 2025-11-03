@@ -4,6 +4,7 @@ import { JournalEntry } from "@/lib/models";
 import { loadJournal, saveJournal, loadPreferences } from "@/lib/storage";
 import { prompts } from "@/data/prompts";
 import { JournalAdvice } from "@/components/JournalAdvice";
+import { MoodAnalysis } from "@/components/MoodAnalysis";
 
 export default function JournalPage() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
@@ -132,6 +133,18 @@ export default function JournalPage() {
           </div>
         </section>
       </div>
+
+      {/* AI Mood Analysis Section */}
+      {entries.length > 0 && (
+        <section className="card glass mood-analysis-section">
+          <div className="card-header">
+            <h2>📊 AI Mood Analysis</h2>
+            <span className="card-subtitle">Discover patterns in your emotional journey</span>
+          </div>
+          <MoodAnalysis entries={entries} recentEntry={entries[0]} />
+        </section>
+      )}
+
       <JournalAdvice entries={entries} />
     </div>
   );

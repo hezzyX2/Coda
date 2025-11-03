@@ -4,6 +4,7 @@ import { Task } from "@/lib/models";
 import { loadTasks, saveTasks } from "@/lib/storage";
 import { TaskEditor } from "@/components/TaskEditor";
 import { TaskList } from "@/components/TaskList";
+import { SmartSchedule } from "@/components/SmartSchedule";
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -97,6 +98,17 @@ export default function TasksPage() {
         </section>
       )}
 
+      {/* AI Smart Schedule Section */}
+      {pendingTasks.length > 0 && (
+        <section className="card glass smart-schedule-section">
+          <div className="card-header">
+            <h2>🤖 AI Smart Schedule</h2>
+            <span className="card-subtitle">Let AI create the perfect schedule for your day</span>
+          </div>
+          <SmartSchedule tasks={tasks} />
+        </section>
+      )}
+
       <div className="grid two">
         <section className="card glass">
           <div className="card-header">
@@ -108,7 +120,12 @@ export default function TasksPage() {
         <section className="card glass">
           <div className="card-header">
             <h2>📝 Your Tasks</h2>
-            <span className="card-subtitle">{filteredTasks.length} {filter === "all" ? "total" : filter} tasks</span>
+            <span className="card-subtitle">
+              {filteredTasks.length} {filter === "all" ? "total" : filter} task{filteredTasks.length !== 1 ? "s" : ""}
+              {filteredTasks.length > 0 && !filteredTasks[0].done && (
+                <span className="pending-count"> · {pendingTasks.length} pending</span>
+              )}
+            </span>
           </div>
           <TaskList tasks={filteredTasks} onChange={updateTasks} />
         </section>

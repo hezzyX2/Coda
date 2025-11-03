@@ -1,15 +1,17 @@
 "use client";
 import { TipsPanel } from "@/components/TipsPanel";
 import { Planner } from "@/components/Planner";
+import { ProductivityInsights } from "@/components/ProductivityInsights";
 import { useEffect, useState } from "react";
 import { loadTasks, loadJournal } from "@/lib/storage";
-import { Task } from "@/lib/models";
+import { Task, JournalEntry } from "@/lib/models";
 import { isAuthenticated } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
   const [stats, setStats] = useState({
     total: 0,
     completed: 0,
@@ -27,6 +29,7 @@ export default function DashboardPage() {
     const allTasks = loadTasks();
     setTasks(allTasks);
     const journal = loadJournal();
+    setJournalEntries(journal);
     setStats({
       total: allTasks.length,
       completed: allTasks.filter(t => t.done).length,
@@ -106,6 +109,17 @@ export default function DashboardPage() {
           <TipsPanel tasks={tasks} />
         </section>
       </div>
+
+      {/* AI Productivity Insights */}
+      {(tasks.length > 0 || journalEntries.length > 0) && (
+        <section className="card glass productivity-insights-section">
+          <div className="card-header">
+            <h2>🤖 AI Productivity Insights</h2>
+            <span className="card-subtitle">Personalized analysis of your productivity patterns</span>
+          </div>
+          <ProductivityInsights tasks={tasks} journalEntries={journalEntries} />
+        </section>
+      )}
 
       {/* Quick Actions */}
       <section className="card glass quick-actions">
