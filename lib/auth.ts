@@ -91,25 +91,32 @@ export async function login(email: string, password: string): Promise<{ success:
     return { success: false, error: "This account uses Google sign-in. Please sign in with Google." };
   }
 
-  // Verify password - check multiple possible storage formats
+  // Verify password - check both new and legacy key formats
   const passwordKey = `codak.password.${sanitizedEmail}`;
-  let storedPasswordHash = localStorage.getItem(passwordKey);
+  const legacyPasswordKey = `coda.password.${sanitizedEmail}`;
   
-  // Try legacy key format for migration
-  if (!storedPasswordHash) {
-    const legacyKey = `coda.password.${sanitizedEmail}`;
-    storedPasswordHash = localStorage.getItem(legacyKey);
-    if (storedPasswordHash) {
-      // Migrate to new key format
-      localStorage.setItem(passwordKey, storedPasswordHash);
-      localStorage.removeItem(legacyKey);
-    }
+  let storedPasswordHash = localStorage.getItem(passwordKey) || localStorage.getItem(legacyPasswordKey);
+  
+  // Try alternative email formats (in case email casing is different)
+  if (!storedPasswordHash && user.email !== sanitizedEmail) {
+    const altNewKey = `codak.password.${user.email.toLowerCase()}`;
+    const altLegacyKey = `coda.password.${user.email.toLowerCase()}`;
+    storedPasswordHash = localStorage.getItem(altNewKey) || localStorage.getItem(altLegacyKey);
   }
   
   if (!storedPasswordHash) {
     console.error(`[Auth] No password found for email: ${sanitizedEmail}`);
+    console.error(`[Auth] Checked keys: ${passwordKey}, ${legacyPasswordKey}`);
+    console.error(`[Auth] All password keys in storage:`, 
+      Object.keys(localStorage).filter(k => k.includes('password')));
+    console.error(`[Auth] User email from list: ${user.email}`);
     recordFailedLogin(sanitizedEmail);
     return { success: false, error: "Invalid email or password. Please check your credentials." };
+  }
+  
+  // If found in legacy key, also store in new key for future
+  if (storedPasswordHash && !localStorage.getItem(passwordKey)) {
+    localStorage.setItem(passwordKey, storedPasswordHash);
   }
 
   // Check if password is stored as hash (SHA-256 = 64 hex chars)
@@ -211,31 +218,16 @@ export async function signup(email: string, password: string, name: string): Pro
   users.push(newUser);
   localStorage.setItem("codak.users.v1", JSON.stringify(users));
   
-  // Store password hash with consistent key format
+  // Store password hash - use both new and legacy keys for compatibility
   const passwordKey = `codak.password.${sanitizedEmail}`;
-  localStorage.setItem(passwordKey, passwordHash);
-  
-  // Migrate from legacy keys if they exist
-  const legacyUserKey = "coda.users.v1";
   const legacyPasswordKey = `coda.password.${sanitizedEmail}`;
-  const legacyUsers = localStorage.getItem(legacyUserKey);
-  if (legacyUsers) {
-    try {
-      const oldUsers = JSON.parse(legacyUsers);
-      const oldUser = oldUsers.find((u: any) => u.email?.toLowerCase() === sanitizedEmail);
-      if (oldUser) {
-        // User exists in old format, migrate
-        const oldPassword = localStorage.getItem(legacyPasswordKey);
-        if (oldPassword) {
-          localStorage.setItem(passwordKey, oldPassword);
-        }
-      }
-    } catch (e) {
-      console.error("[Auth] Error migrating legacy users:", e);
-    }
-  }
   
-  console.log(`[Auth] Created account for: ${sanitizedEmail}, password hash stored at: ${passwordKey}`);
+  localStorage.setItem(passwordKey, passwordHash);
+  // Also store in legacy format for backwards compatibility
+  localStorage.setItem(legacyPasswordKey, passwordHash);
+  
+  console.log(`[Auth] Created account for: ${sanitizedEmail}`);
+  console.log(`[Auth] Password hash stored at: ${passwordKey} and ${legacyPasswordKey}`);
 
   // Generate secure session token
   const sessionToken = generateSessionToken();
