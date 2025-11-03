@@ -1,6 +1,5 @@
 "use client";
 import { migrateUserData } from "./storage";
-import { logLoginEvent } from "./verification";
 import {
   hashPassword,
   verifyPassword,
@@ -49,7 +48,7 @@ export function getCurrentUser(): User | null {
   }
 }
 
-export async function login(email: string, password: string): Promise<{ success: boolean; error?: string; needsVerification?: boolean }> {
+export async function login(email: string, password: string): Promise<{ success: boolean; error?: string }> {
   if (!email || !password) {
     return { success: false, error: "Email and password are required" };
   }
@@ -81,14 +80,6 @@ export async function login(email: string, password: string): Promise<{ success:
   if (!user) {
     console.error(`[Auth] User not found: ${sanitizedEmail}`);
     recordFailedLogin(sanitizedEmail);
-    logLoginEvent({
-      id: crypto.randomUUID(),
-      email: sanitizedEmail,
-      timestamp: new Date().toISOString(),
-      type: "login_failed",
-      success: false,
-      error: "User not found"
-    });
     return { success: false, error: "Invalid email or password" };
   }
 
@@ -166,28 +157,11 @@ export async function login(email: string, password: string): Promise<{ success:
   if (!passwordValid) {
     console.error(`[Auth] Password verification failed for: ${sanitizedEmail}`);
     recordFailedLogin(sanitizedEmail);
-    logLoginEvent({
-      id: crypto.randomUUID(),
-      email: sanitizedEmail,
-      timestamp: new Date().toISOString(),
-      type: "login_failed",
-      success: false,
-      error: "Invalid password"
-    });
     return { success: false, error: "Invalid email or password" };
   }
 
   // Clear failed login attempts on success
   clearFailedLogins(sanitizedEmail);
-
-  // Log successful password verification
-  logLoginEvent({
-    id: crypto.randomUUID(),
-    email: sanitizedEmail,
-    timestamp: new Date().toISOString(),
-    type: "login_success",
-    success: true,
-  });
 
   // Generate secure session token
   const sessionToken = generateSessionToken();
@@ -201,7 +175,7 @@ export async function login(email: string, password: string): Promise<{ success:
   migrateUserData(sanitizedEmail);
   
   console.log(`[Auth] Successful login for: ${sanitizedEmail}`);
-  return { success: true, needsVerification: true }; // Require email verification
+  return { success: true };
 }
 
 export async function signup(email: string, password: string, name: string): Promise<{ success: boolean; error?: string }> {

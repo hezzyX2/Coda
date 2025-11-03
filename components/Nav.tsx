@@ -132,11 +132,11 @@ export function Nav() {
               </div>
             )}
             <select className="input mobile-theme-select" value={theme} onChange={(e) => changeTheme(e.target.value)}>
-              <option value="lilac-mist">Lilac</option>
-              <option value="midnight-neon">Neon</option>
-              <option value="sunset-glow">Sunset</option>
-              <option value="ocean-breeze">Ocean</option>
-              <option value="forest-fog">Forest</option>
+              <option value="lilac-mist">💜 Royal Purple</option>
+              <option value="midnight-neon">💎 Cyber Matrix</option>
+              <option value="sunset-glow">🔥 Fire Ember</option>
+              <option value="ocean-breeze">🌊 Ocean Abyss</option>
+              <option value="forest-fog">🌿 Forest Canopy</option>
             </select>
             <button className="btn primary mobile-logout" onClick={handleLogout}>Logout</button>
           </div>

@@ -1,267 +1,432 @@
-/* Multiple aesthetic themes using CSS variables */
+/* Premium Theme System - Unique & Complex Designs */
+
+/* ========================================
+   THEME 1: ROYAL PURPLE EMPIRE
+   Elegant, luxurious purple with gold accents
+   ======================================== */
 [data-theme="lilac-mist"] {
-  --bg: #0a0815;
-  --text: #f5f4ff;
-  --muted: #d4cfff;
-  --card: rgba(155, 135, 245, 0.15);
-  --border: rgba(155, 135, 245, 0.5);
-  --primary: #b89fff;
-  --primary-glow: #9b87f5;
-  --danger: #ff6b6b;
-  --accent: #c77dff;
-  --accent-2: #e0aaff;
-  --gradient-1: #9b87f5;
-  --gradient-2: #c77dff;
-  --gradient-3: #e0aaff;
+  --bg: #0a0618;
+  --text: #f8f4ff;
+  --muted: #d4c4f0;
+  --card: rgba(147, 97, 255, 0.12);
+  --border: rgba(175, 139, 255, 0.35);
+  --primary: #b794f6;
+  --primary-glow: #9f7aea;
+  --danger: #ff6b9d;
+  --accent: #d4af37;
+  --accent-2: #f4e4bc;
+  --gradient-1: #8b5cf6;
+  --gradient-2: #a78bfa;
+  --gradient-3: #c4b5fd;
+  --success: #48bb78;
+  --warning: #ed8936;
+  --shadow-color: rgba(147, 97, 255, 0.4);
 }
 
-[data-theme="midnight-neon"] {
-  --bg: #000510;
-  --text: #f0ffff;
-  --muted: #b3fff5;
-  --card: rgba(0, 255, 200, 0.18);
-  --border: rgba(0, 255, 200, 0.6);
-  --primary: #00ffd1;
-  --primary-glow: #00ffd1;
-  --danger: #ff4d6d;
-  --accent: #00d4ff;
-  --accent-2: #00a8cc;
-  --gradient-1: #00ffd1;
-  --gradient-2: #00d4ff;
-  --gradient-3: #00a8cc;
-}
-
-[data-theme="sunset-glow"] {
-  --bg: #150a0f;
-  --text: #fff8f0;
-  --muted: #ffdcc3;
-  --card: rgba(255, 138, 91, 0.18);
-  --border: rgba(255, 138, 91, 0.6);
-  --primary: #ff9d6b;
-  --primary-glow: #ff8a5b;
-  --danger: #ff6b6b;
-  --accent: #ffb347;
-  --accent-2: #ff8c42;
-  --gradient-1: #ff9d6b;
-  --gradient-2: #ffb347;
-  --gradient-3: #ff8c42;
-}
-
-[data-theme="ocean-breeze"] {
-  --bg: #051119;
-  --text: #f0f9ff;
-  --muted: #bae6ff;
-  --card: rgba(90, 172, 255, 0.18);
-  --border: rgba(90, 172, 255, 0.6);
-  --primary: #7ab8ff;
-  --primary-glow: #5aacff;
-  --danger: #ff7b8a;
-  --accent: #60a5fa;
-  --accent-2: #3b82f6;
-  --gradient-1: #7ab8ff;
-  --gradient-2: #60a5fa;
-  --gradient-3: #3b82f6;
-}
-
-[data-theme="forest-fog"] {
-  --bg: #08120d;
-  --text: #f0fff4;
-  --muted: #c7f0d3;
-  --card: rgba(88, 176, 140, 0.18);
-  --border: rgba(88, 176, 140, 0.6);
-  --primary: #6fc89e;
-  --primary-glow: #58b08c;
-  --danger: #ff7b8a;
-  --accent: #52c878;
-  --accent-2: #3fa76d;
-  --gradient-1: #6fc89e;
-  --gradient-2: #52c878;
-  --gradient-3: #3fa76d;
-}
-
-/* Enhanced theme-specific backgrounds with animated gradients */
 [data-theme="lilac-mist"] body {
   background: 
-    radial-gradient(1400px 1000px at 85% -15%, rgba(155, 135, 245, 0.25), transparent 50%),
-    radial-gradient(1000px 700px at 15% 60%, rgba(199, 125, 255, 0.2), transparent 50%),
-    radial-gradient(800px 600px at -5% 20%, rgba(224, 170, 255, 0.15), transparent 50%),
-    linear-gradient(135deg, #0a0815 0%, #150a20 50%, #0a0815 100%);
-  background-size: 100% 100%;
-  animation: gradient-shift-theme 20s ease infinite;
+    radial-gradient(circle at 20% 30%, rgba(147, 97, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(175, 139, 255, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 50% 10%, rgba(212, 175, 240, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(199, 125, 255, 0.15) 0%, transparent 40%),
+    linear-gradient(135deg, #0a0618 0%, #1a0d2e 25%, #2d1b4e 50%, #1a0d2e 75%, #0a0618 100%);
+  background-size: 400% 400%;
+  background-attachment: fixed;
+  animation: royal-shift 25s ease infinite;
+  position: relative;
 }
 
-[data-theme="midnight-neon"] body {
-  background: 
-    radial-gradient(1400px 1000px at 85% -15%, rgba(0,255,209,0.3), transparent 50%),
-    radial-gradient(1000px 700px at 15% 60%, rgba(0,212,255,0.25), transparent 50%),
-    radial-gradient(800px 600px at -5% 20%, rgba(0,168,204,0.2), transparent 50%),
-    linear-gradient(135deg, #000510 0%, #001a28 50%, #000510 100%);
-  background-size: 120% 120%;
-  animation: gradient-shift-neon 15s ease infinite;
-}
-
-[data-theme="sunset-glow"] body {
-  background: 
-    radial-gradient(1400px 1000px at 85% -15%, rgba(255,157,107,0.3), transparent 50%),
-    radial-gradient(1000px 700px at 15% 60%, rgba(255,179,71,0.25), transparent 50%),
-    radial-gradient(800px 600px at -5% 20%, rgba(255,140,66,0.2), transparent 50%),
-    linear-gradient(135deg, #150a0f 0%, #2a1419 50%, #150a0f 100%);
-  background-size: 120% 120%;
-  animation: gradient-shift-sunset 18s ease infinite;
-}
-
-[data-theme="ocean-breeze"] body {
-  background: 
-    radial-gradient(1400px 1000px at 85% -15%, rgba(90,172,255,0.3), transparent 50%),
-    radial-gradient(1000px 700px at 15% 60%, rgba(96,165,250,0.25), transparent 50%),
-    radial-gradient(800px 600px at -5% 20%, rgba(59,130,246,0.2), transparent 50%),
-    linear-gradient(135deg, #051119 0%, #0a1f2e 50%, #051119 100%);
-  background-size: 120% 120%;
-  animation: gradient-shift-ocean 22s ease infinite;
-}
-
-[data-theme="forest-fog"] body {
-  background: 
-    radial-gradient(1400px 1000px at 85% -15%, rgba(88,176,140,0.3), transparent 50%),
-    radial-gradient(1000px 700px at 15% 60%, rgba(82,200,120,0.25), transparent 50%),
-    radial-gradient(800px 600px at -5% 20%, rgba(63,167,109,0.2), transparent 50%),
-    linear-gradient(135deg, #08120d 0%, #0f1f15 50%, #08120d 100%);
-  background-size: 120% 120%;
-  animation: gradient-shift-forest 25s ease infinite;
-}
-
-/* Animated gradient shifts for each theme */
-@keyframes gradient-shift-theme {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes gradient-shift-neon {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes gradient-shift-sunset {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes gradient-shift-ocean {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes gradient-shift-forest {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Enhanced glow effects for theme-specific elements */
-[data-theme="lilac-mist"] .glass,
-[data-theme="lilac-mist"] .card {
-  box-shadow: 
-    0 8px 32px rgba(155, 135, 245, 0.15),
-    0 0 0 1px rgba(155, 135, 245, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="midnight-neon"] .glass,
-[data-theme="midnight-neon"] .card {
-  box-shadow: 
-    0 8px 32px rgba(0, 255, 209, 0.2),
-    0 0 0 1px rgba(0, 255, 209, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    0 0 20px rgba(0, 255, 209, 0.1);
-}
-
-[data-theme="sunset-glow"] .glass,
-[data-theme="sunset-glow"] .card {
-  box-shadow: 
-    0 8px 32px rgba(255, 157, 107, 0.2),
-    0 0 0 1px rgba(255, 157, 107, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="ocean-breeze"] .glass,
-[data-theme="ocean-breeze"] .card {
-  box-shadow: 
-    0 8px 32px rgba(90, 172, 255, 0.2),
-    0 0 0 1px rgba(90, 172, 255, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-[data-theme="forest-fog"] .glass,
-[data-theme="forest-fog"] .card {
-  box-shadow: 
-    0 8px 32px rgba(88, 176, 140, 0.2),
-    0 0 0 1px rgba(88, 176, 140, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* Enhanced primary button glow effects */
-[data-theme="lilac-mist"] .btn.primary {
-  box-shadow: 
-    0 4px 20px rgba(155, 135, 245, 0.4),
-    0 0 0 1px rgba(184, 159, 255, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-[data-theme="midnight-neon"] .btn.primary {
-  box-shadow: 
-    0 4px 20px rgba(0, 255, 209, 0.5),
-    0 0 0 1px rgba(0, 255, 209, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 0 30px rgba(0, 255, 209, 0.3);
-}
-
-[data-theme="sunset-glow"] .btn.primary {
-  box-shadow: 
-    0 4px 20px rgba(255, 157, 107, 0.5),
-    0 0 0 1px rgba(255, 157, 107, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-[data-theme="ocean-breeze"] .btn.primary {
-  box-shadow: 
-    0 4px 20px rgba(90, 172, 255, 0.5),
-    0 0 0 1px rgba(90, 172, 255, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-[data-theme="forest-fog"] .btn.primary {
-  box-shadow: 
-    0 4px 20px rgba(88, 176, 140, 0.5),
-    0 0 0 1px rgba(88, 176, 140, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-/* Floating particles effect for extra coolness */
-[data-theme] body::before {
+[data-theme="lilac-mist"] body::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(147, 97, 255, 0.03) 2px, rgba(147, 97, 255, 0.03) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(175, 139, 255, 0.03) 2px, rgba(175, 139, 255, 0.03) 4px);
   pointer-events: none;
-  opacity: 0.03;
-  background-image: 
-    radial-gradient(2px 2px at 20% 30%, currentColor, transparent),
-    radial-gradient(2px 2px at 60% 70%, currentColor, transparent),
-    radial-gradient(1px 1px at 50% 50%, currentColor, transparent),
-    radial-gradient(1px 1px at 80% 10%, currentColor, transparent),
-    radial-gradient(2px 2px at 90% 60%, currentColor, transparent),
-    radial-gradient(1px 1px at 30% 80%, currentColor, transparent);
-  background-size: 200px 200px;
-  animation: float-particles 20s linear infinite;
   z-index: 0;
 }
 
-@keyframes float-particles {
-  0% { transform: translateY(0) translateX(0); }
-  33% { transform: translateY(-20px) translateX(10px); }
-  66% { transform: translateY(10px) translateX(-10px); }
-  100% { transform: translateY(0) translateX(0); }
+@keyframes royal-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
+/* ========================================
+   THEME 2: CYBER MATRIX NEON
+   Futuristic cyan/teal with digital grid
+   ======================================== */
+[data-theme="midnight-neon"] {
+  --bg: #000a14;
+  --text: #e6ffff;
+  --muted: #80deea;
+  --card: rgba(0, 255, 209, 0.15);
+  --border: rgba(0, 255, 209, 0.45);
+  --primary: #00e5ff;
+  --primary-glow: #00ffd1;
+  --danger: #ff1744;
+  --accent: #00d4ff;
+  --accent-2: #00b8d4;
+  --gradient-1: #00e5ff;
+  --gradient-2: #00b8d4;
+  --gradient-3: #0097a7;
+  --success: #00ff88;
+  --warning: #ffc400;
+  --shadow-color: rgba(0, 255, 209, 0.5);
+}
 
+[data-theme="midnight-neon"] body {
+  background: 
+    radial-gradient(ellipse at top left, rgba(0, 255, 209, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(0, 212, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at center, rgba(0, 184, 212, 0.2) 0%, transparent 60%),
+    linear-gradient(135deg, #000a14 0%, #001a2e 25%, #002a3e 50%, #001a2e 75%, #000a14 100%);
+  background-size: 300% 300%;
+  background-attachment: fixed;
+  animation: matrix-shift 20s linear infinite;
+  position: relative;
+}
+
+[data-theme="midnight-neon"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(0, 255, 209, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 209, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+  animation: grid-pulse 3s ease-in-out infinite;
+}
+
+@keyframes matrix-shift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* ========================================
+   THEME 3: FIRE EMBER SUNSET
+   Warm, energetic orange/red with ember effects
+   ======================================== */
+[data-theme="sunset-glow"] {
+  --bg: #1a0a0f;
+  --text: #fff5eb;
+  --muted: #ffd4b3;
+  --card: rgba(255, 107, 107, 0.18);
+  --border: rgba(255, 138, 91, 0.5);
+  --primary: #ff8a65;
+  --primary-glow: #ff7043;
+  --danger: #ff5252;
+  --accent: #ffb74d;
+  --accent-2: #ffa726;
+  --gradient-1: #ff6b6b;
+  --gradient-2: #ff8a65;
+  --gradient-3: #ffb74d;
+  --success: #66bb6a;
+  --warning: #ffa726;
+  --shadow-color: rgba(255, 107, 107, 0.45);
+}
+
+[data-theme="sunset-glow"] body {
+  background: 
+    radial-gradient(ellipse at top right, rgba(255, 107, 107, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom left, rgba(255, 138, 91, 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at center, rgba(255, 183, 77, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse at 30% 70%, rgba(255, 167, 38, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #1a0a0f 0%, #2d1419 25%, #4a1f26 50%, #2d1419 75%, #1a0a0f 100%);
+  background-size: 350% 350%;
+  background-attachment: fixed;
+  animation: ember-flow 30s ease infinite;
+  position: relative;
+}
+
+[data-theme="sunset-glow"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255, 107, 107, 0.15) 0%, transparent 30%),
+    radial-gradient(circle at 70% 80%, rgba(255, 138, 91, 0.12) 0%, transparent 30%);
+  animation: ember-float 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes ember-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes ember-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -30px) scale(1.1); }
+}
+
+/* ========================================
+   THEME 4: DEPTH OCEAN ABYSS
+   Deep blue with wave-like animations
+   ======================================== */
+[data-theme="ocean-breeze"] {
+  --bg: #041422;
+  --text: #e0f2fe;
+  --muted: #7dd3fc;
+  --card: rgba(59, 130, 246, 0.16);
+  --border: rgba(96, 165, 250, 0.4);
+  --primary: #60a5fa;
+  --primary-glow: #3b82f6;
+  --danger: #f87171;
+  --accent: #38bdf8;
+  --accent-2: #0ea5e9;
+  --gradient-1: #3b82f6;
+  --gradient-2: #60a5fa;
+  --gradient-3: #93c5fd;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --shadow-color: rgba(59, 130, 246, 0.4);
+}
+
+[data-theme="ocean-breeze"] body {
+  background: 
+    radial-gradient(ellipse at top, rgba(59, 130, 246, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(14, 165, 233, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at left, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at right, rgba(56, 189, 248, 0.25) 0%, transparent 50%),
+    linear-gradient(180deg, #041422 0%, #082f49 30%, #075985 60%, #082f49 90%, #041422 100%);
+  background-size: 200% 200%;
+  background-attachment: fixed;
+  animation: wave-depth 35s ease infinite;
+  position: relative;
+}
+
+[data-theme="ocean-breeze"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(59, 130, 246, 0.05) 3px,
+      rgba(59, 130, 246, 0.05) 6px
+    );
+  background-size: 100% 20px;
+  animation: wave-motion 10s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes wave-depth {
+  0%, 100% { background-position: 50% 0%; }
+  50% { background-position: 50% 100%; }
+}
+
+@keyframes wave-motion {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(20px); }
+}
+
+/* ========================================
+   THEME 5: EMERALD FOREST CANOPY
+   Rich greens with nature-inspired patterns
+   ======================================== */
+[data-theme="forest-fog"] {
+  --bg: #061913;
+  --text: #f0fdf4;
+  --muted: #bbf7d0;
+  --card: rgba(74, 222, 128, 0.14);
+  --border: rgba(88, 176, 140, 0.4);
+  --primary: #4ade80;
+  --primary-glow: #22c55e;
+  --danger: #ef4444;
+  --accent: #34d399;
+  --accent-2: #10b981;
+  --gradient-1: #22c55e;
+  --gradient-2: #4ade80;
+  --gradient-3: #86efac;
+  --success: #22c55e;
+  --warning: #facc15;
+  --shadow-color: rgba(74, 222, 128, 0.35);
+}
+
+[data-theme="forest-fog"] body {
+  background: 
+    radial-gradient(ellipse at top left, rgba(34, 197, 94, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(74, 222, 128, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at center, rgba(16, 185, 129, 0.22) 0%, transparent 65%),
+    radial-gradient(ellipse at 70% 30%, rgba(52, 211, 153, 0.18) 0%, transparent 45%),
+    linear-gradient(135deg, #061913 0%, #0d2818 20%, #14532d 40%, #0d2818 60%, #061913 80%, #0d2818 100%);
+  background-size: 400% 400%;
+  background-attachment: fixed;
+  animation: canopy-breathe 40s ease infinite;
+  position: relative;
+}
+
+[data-theme="forest-fog"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(74, 222, 128, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(52, 211, 153, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.05) 1.5px, transparent 1.5px);
+  background-size: 100px 100px, 150px 150px, 200px 200px;
+  animation: leaves-drift 15s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes canopy-breathe {
+  0%, 100% { background-position: 0% 0%; }
+  33% { background-position: 100% 50%; }
+  66% { background-position: 50% 100%; }
+}
+
+@keyframes leaves-drift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(30px, -20px) rotate(360deg); }
+}
+
+/* Enhanced glass morphism for all themes */
+[data-theme] .glass {
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 40px var(--shadow-color);
+}
+
+[data-theme] .card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px var(--shadow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme] .card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.4),
+    0 0 30px var(--shadow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: var(--primary);
+}
+
+/* Premium button effects */
+[data-theme] .btn.primary {
+  background: linear-gradient(135deg, var(--primary), var(--accent), var(--accent-2));
+  background-size: 200% 200%;
+  border: none;
+  box-shadow: 
+    0 4px 20px var(--shadow-color),
+    0 0 30px rgba(255, 255, 255, 0.1) inset;
+  animation: gradient-flow 3s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme] .btn.primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer-sweep 2s infinite;
+}
+
+@keyframes gradient-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes shimmer-sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Input glow effects */
+[data-theme] .input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 
+    0 0 0 3px rgba(255, 255, 255, 0.1),
+    0 0 20px var(--shadow-color),
+    0 0 40px var(--primary-glow);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Stat card enhancements */
+[data-theme] .stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme] .stat-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  opacity: 0.1;
+  animation: stat-glow 4s ease-in-out infinite;
+}
+
+@keyframes stat-glow {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.1; }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 0.2; }
+}
+
+/* Enhanced navigation */
+[data-theme] .top-nav {
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Link hover effects with theme colors */
+[data-theme] .links a.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  box-shadow: 
+    0 4px 12px var(--shadow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+[data-theme] .links a:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
