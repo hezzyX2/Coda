@@ -203,7 +203,7 @@ function logLoginEvent(data: {
 }, req: NextRequest) {
   // This will be stored client-side via the auth system
   // For now, just log server-side
-  const log: LoginLog = {
+  const log = {
     id: crypto.randomUUID(),
     email: data.email,
     timestamp: new Date().toISOString(),
