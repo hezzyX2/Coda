@@ -22,13 +22,13 @@ export default function HomePage() {
       <section className="hero-section">
         <div className="hero-content">
           <div className="hero-brand">
-            <span className="brand-text">C</span>
+            <span className="brand-text">Cod</span>
             <DiamondLogo size={80} animated={true} />
-            <span className="brand-text">da</span>
+            <span className="brand-text">k AI</span>
           </div>
-          <h1 className="hero-title">Your AI-Powered Student Companion</h1>
+          <h1 className="hero-title">Advanced AI-Powered Student Success Platform</h1>
           <p className="hero-subtitle">
-            Organize your day, plan your tasks, reflect on your journey, and get personalized advice—all powered by AI.
+            Transform your academic journey with cutting-edge AI. Intelligent study planning, habit tracking, mood analysis, writing assistance, and personalized coaching—all in one powerful platform.
           </p>
           <div className="hero-cta">
             <Link href="/" className="btn primary large">Get Started</Link>
@@ -59,13 +59,13 @@ export default function HomePage() {
 
       {/* Features Section */}
       <section className="features-section">
-        <h2 className="section-title">How Coda Works</h2>
+        <h2 className="section-title">How Codak AI Works</h2>
         <div className="features-grid">
           <div className={`feature-card ${mounted ? "fade-in-up" : ""}`} style={{ animationDelay: "0.1s" }}>
             <div className="feature-icon">🎯</div>
             <h3>Smart Task Management</h3>
             <p>
-              Add your tasks with difficulty levels and time estimates. Coda's AI analyzes your workload and provides
+              Add your tasks with difficulty levels and time estimates. Codak AI analyzes your workload and provides
               <strong> specific, step-by-step instructions</strong> on how to complete each task, including what materials
               you need and how to break it down.
             </p>
@@ -76,7 +76,7 @@ export default function HomePage() {
             <h3>Intelligent Planning</h3>
             <p>
               Our planner automatically creates focus blocks and break sessions based on your preferences. Choose your work
-              style—easy tasks first, hard tasks first, or balanced—and watch Coda build your perfect schedule.
+              style—easy tasks first, hard tasks first, or balanced—and watch Codak AI build your perfect schedule.
             </p>
           </div>
 
@@ -84,7 +84,7 @@ export default function HomePage() {
             <div className="feature-icon">🤖</div>
             <h3>AI Life Coach</h3>
             <p>
-              Chat with Coda about anything—academics, relationships, personal growth, stress management. Get thoughtful,
+              Chat with Codak AI about anything—academics, relationships, personal growth, stress management. Get thoughtful,
               empathetic advice tailored to your chosen tone (encouraging, direct, or gentle).
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function HomePage() {
             <div className="feature-icon">⚙️</div>
             <h3>Adaptive Preferences</h3>
             <p>
-              Customize focus block lengths, break durations, difficulty bias, notification settings, and AI tone. Coda
+              Customize focus block lengths, break durations, difficulty bias, notification settings, and AI tone. Codak AI
               learns your preferences and adapts to make your experience as enjoyable and productive as possible.
             </p>
           </div>
@@ -161,7 +161,7 @@ export default function HomePage() {
         <div className="cta-content">
           <DiamondLogo size={100} animated={true} />
           <h2>Ready to Transform Your Student Life?</h2>
-          <p>Join thousands of students using Coda to stay organized, productive, and mindful.</p>
+          <p>Join thousands of students using Codak AI to stay organized, productive, and mindful.</p>
           <Link href="/" className="btn primary large">Start Organizing</Link>
         </div>
       </section>

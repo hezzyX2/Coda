@@ -72,8 +72,8 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Coda Premium",
-              description: "Unlock AI Chat, Journal Analysis, and Enhanced AI Advice",
+              name: "Codak AI Premium",
+              description: "Unlock Advanced AI Features: Study Planner, Habit Tracker, Writing Assistant, and Premium Coaching",
             },
             recurring: {
               interval: "month",

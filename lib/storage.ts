@@ -1,5 +1,5 @@
 "use client";
-import { JournalEntry, Preferences, Task } from "./models";
+import { Habit, JournalEntry, Preferences, Task } from "./models";
 import { getCurrentUser } from "./auth";
 
 function safeParse<T>(text: string | null, fallback: T): T {
@@ -80,6 +80,26 @@ export function savePreferences(prefs: Preferences): void {
   
   const keys = getUserKeys();
   localStorage.setItem(keys.prefs, JSON.stringify(prefs));
+}
+
+export function loadHabits(): Habit[] {
+  if (typeof window === "undefined") return [];
+  const user = getCurrentUser();
+  if (!user) return [];
+  
+  const userKey = user.email.replace(/[^a-zA-Z0-9]/g, "_");
+  const key = `codak.habits.${userKey}`;
+  return safeParse(localStorage.getItem(key), [] as Habit[]);
+}
+
+export function saveHabits(habits: Habit[]): void {
+  if (typeof window === "undefined") return;
+  const user = getCurrentUser();
+  if (!user) return;
+  
+  const userKey = user.email.replace(/[^a-zA-Z0-9]/g, "_");
+  const key = `codak.habits.${userKey}`;
+  localStorage.setItem(key, JSON.stringify(habits));
 }
 
 // Helper function to migrate old global data to user-specific storage (one-time migration)

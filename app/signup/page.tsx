@@ -46,9 +46,9 @@ export default function SignupPage() {
       <div className="auth-container">
         <div className="auth-header">
           <div className="auth-logo">
-            <span className="auth-brand-text">C</span>
+            <span className="auth-brand-text">Cod</span>
             <DiamondLogo size={48} animated={true} />
-            <span className="auth-brand-text">da</span>
+            <span className="auth-brand-text">k AI</span>
           </div>
           <h1>Create Account</h1>
           <p>Start organizing your student life</p>

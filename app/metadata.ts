@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Coda - AI-Powered Student Organizer",
-  description: "Organize your day, plan your tasks, reflect on your journey, and get personalized AI advice. The complete student productivity companion.",
-  keywords: ["student organizer", "AI assistant", "productivity", "task management", "journaling", "study planner", "student app"],
-  authors: [{ name: "Coda" }],
-  creator: "Coda",
-  publisher: "Coda",
+  title: "Codak AI - Advanced AI-Powered Student Success Platform",
+  description: "The ultimate AI-powered platform for students. Advanced task management, intelligent study planning, habit tracking, mood analysis, and personalized AI coaching. Transform your academic journey with cutting-edge AI technology.",
+  keywords: ["Codak AI", "AI student platform", "AI productivity", "intelligent study planner", "AI habit tracker", "AI writing assistant", "student success", "AI coaching"],
+  authors: [{ name: "Codak AI" }],
+  creator: "Codak AI",
+  publisher: "Codak AI",
   formatDetection: {
     email: false,
     address: false,
@@ -24,17 +24,17 @@ export const metadata: Metadata = {
     }
   })(),
   openGraph: {
-    title: "Coda - AI-Powered Student Organizer",
-    description: "Organize your day with AI. Plan tasks, journal your thoughts, and get personalized advice.",
+    title: "Codak AI - Advanced AI-Powered Student Success Platform",
+    description: "Transform your academic journey with cutting-edge AI. Intelligent study planning, habit tracking, mood analysis, and personalized coaching.",
     url: "/",
-    siteName: "Coda",
+    siteName: "Codak AI",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coda - AI-Powered Student Organizer",
-    description: "Organize your day with AI. Plan tasks, journal your thoughts, and get personalized advice.",
+    title: "Codak AI - Advanced AI-Powered Student Success Platform",
+    description: "Transform your academic journey with cutting-edge AI. Intelligent study planning, habit tracking, and personalized coaching.",
   },
   robots: {
     index: true,

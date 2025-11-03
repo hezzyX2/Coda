@@ -46,15 +46,18 @@ export function Nav() {
   return (
     <header className="top-nav glass">
       <Link href="/home" className="brand-link">
-        <span className="brand-text-nav">C</span>
+        <span className="brand-text-nav">Cod</span>
         <DiamondLogo size={32} animated={true} />
-        <span className="brand-text-nav" style={{ marginLeft: "1px" }}>da</span>
+        <span className="brand-text-nav" style={{ marginLeft: "1px" }}>k AI</span>
       </Link>
       <nav className="links">
         <Link href="/home">Home</Link>
         <Link href="/">Dashboard</Link>
         <Link href="/tasks">Tasks</Link>
         <Link href="/journal">Journal</Link>
+        <Link href="/habits">Habits</Link>
+        <Link href="/study">Study</Link>
+        <Link href="/writing">Writing</Link>
         <Link href="/chat">Chat {!isPremium() && <span className="premium-icon">✨</span>}</Link>
         <Link href="/wisdom">Wisdom</Link>
         <Link href="/premium" className="premium-link">

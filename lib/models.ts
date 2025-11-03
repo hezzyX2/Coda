@@ -37,4 +37,34 @@ export type Plan = {
   blocks: PlanBlock[];
 };
 
+export type Habit = {
+  id: string;
+  name: string;
+  description?: string;
+  category?: string;
+  streak: number;
+  totalDays: number;
+  completedDates: string[];
+  createdAt: string;
+  targetFrequency: "daily" | "weekly" | "custom";
+  color?: string;
+};
+
+export type Achievement = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  unlockedAt?: string;
+  category: "tasks" | "journal" | "habits" | "streak" | "milestone";
+  rarity: "common" | "rare" | "epic" | "legendary";
+};
+
+export type Streak = {
+  type: "tasks" | "journal" | "habits";
+  current: number;
+  longest: number;
+  lastDate: string;
+};
+
 

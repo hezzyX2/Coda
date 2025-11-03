@@ -135,7 +135,7 @@ export default function DashboardPage() {
           </Link>
           <Link href="/chat" className="action-card">
             <div className="action-icon">💬</div>
-            <div className="action-text">Chat with Coda</div>
+            <div className="action-text">Chat with Codak AI</div>
           </Link>
           <Link href="/wisdom" className="action-card">
             <div className="action-icon">✨</div>

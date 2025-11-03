@@ -1334,5 +1334,256 @@ body::before {
   opacity: 0.6;
 }
 
+/* ==================== HABITS PAGE STYLES ==================== */
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.habit-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.habit-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.habit-card.completed {
+  background: rgba(88, 176, 140, 0.1);
+  border-color: var(--accent);
+}
+
+.habit-main {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+}
+
+.habit-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.habit-content {
+  flex: 1;
+}
+
+.habit-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.habit-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.streak-badge {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.category-badge {
+  padding: 2px 8px;
+  background: rgba(155, 135, 245, 0.2);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--accent-2);
+}
+
+.subject-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* ==================== WRITING ASSISTANT STYLES ==================== */
+
+.writing-assistant {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.writing-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.writing-assistant-result {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-section {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.result-section h5 {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.improved-text {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  line-height: 1.8;
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+  font-family: ui-serif, serif;
+}
+
+.score-bar {
+  width: 100%;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.score-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  transition: width 0.5s ease;
+}
+
+.result-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-section li {
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.result-section li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+.features-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 16px;
+}
+
+.feature-item .feature-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.feature-item strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.feature-item p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ==================== STUDY PAGE STYLES ==================== */
+
+.study-plan-display {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.study-day {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.study-day h4 {
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+
+.study-session {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border-left: 3px solid var(--primary);
+}
+
+.session-time {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.session-subject {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.session-method {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
 
 

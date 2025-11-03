@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Coda - AI-Powered Student Organizer',
-    short_name: 'Coda',
+    name: 'Codak AI - Advanced AI-Powered Student Success Platform',
+    short_name: 'Codak AI',
     description: 'Organize your day, plan your tasks, and get AI-powered advice',
     start_url: '/',
     display: 'standalone',
