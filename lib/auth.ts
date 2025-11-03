@@ -49,7 +49,7 @@ export function getCurrentUser(): User | null {
   }
 }
 
-export async function login(email: string, password: string): Promise<{ success: boolean; error?: string }> {
+export async function login(email: string, password: string): Promise<{ success: boolean; error?: string; needsVerification?: boolean }> {
   if (!email || !password) {
     return { success: false, error: "Email and password are required" };
   }
