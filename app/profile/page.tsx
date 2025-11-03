@@ -255,8 +255,9 @@ export default function ProfilePage() {
                   setProfile({
                     ...profile,
                     notificationPreferences: {
-                      ...profile.notificationPreferences,
                       email: e.target.checked,
+                      push: profile.notificationPreferences?.push ?? false,
+                      reminders: profile.notificationPreferences?.reminders ?? true,
                     },
                   })
                 }
@@ -271,8 +272,9 @@ export default function ProfilePage() {
                   setProfile({
                     ...profile,
                     notificationPreferences: {
-                      ...profile.notificationPreferences,
+                      email: profile.notificationPreferences?.email ?? true,
                       push: e.target.checked,
+                      reminders: profile.notificationPreferences?.reminders ?? true,
                     },
                   })
                 }
@@ -287,7 +289,8 @@ export default function ProfilePage() {
                   setProfile({
                     ...profile,
                     notificationPreferences: {
-                      ...profile.notificationPreferences,
+                      email: profile.notificationPreferences?.email ?? true,
+                      push: profile.notificationPreferences?.push ?? false,
                       reminders: e.target.checked,
                     },
                   })
@@ -311,8 +314,8 @@ export default function ProfilePage() {
                   setProfile({
                     ...profile,
                     privacySettings: {
-                      ...profile.privacySettings,
                       shareAnalytics: e.target.checked,
+                      shareProgress: profile.privacySettings?.shareProgress ?? false,
                     },
                   })
                 }
@@ -327,7 +330,7 @@ export default function ProfilePage() {
                   setProfile({
                     ...profile,
                     privacySettings: {
-                      ...profile.privacySettings,
+                      shareAnalytics: profile.privacySettings?.shareAnalytics ?? false,
                       shareProgress: e.target.checked,
                     },
                   })

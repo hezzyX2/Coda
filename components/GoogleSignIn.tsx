@@ -83,8 +83,9 @@ export function GoogleSignIn({ onSuccess, onError }: {
     }
   }
 
+  // Don't show button if not configured - fail gracefully
   if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) {
-    return null; // Don't show button if not configured
+    return null;
   }
 
   return (
