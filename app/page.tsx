@@ -124,7 +124,7 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <section className="card glass quick-actions">
         <h2>⚡ Quick Actions</h2>
-        <div className="actions-grid">
+        <div className="actions-grid enhanced">
           <Link href="/tasks" className="action-card">
             <div className="action-icon">➕</div>
             <div className="action-text">Add New Task</div>
@@ -133,6 +133,22 @@ export default function DashboardPage() {
             <div className="action-icon">📔</div>
             <div className="action-text">Write Journal Entry</div>
           </Link>
+          <Link href="/habits" className="action-card">
+            <div className="action-icon">🔥</div>
+            <div className="action-text">Track Habits</div>
+          </Link>
+          <Link href="/study" className="action-card">
+            <div className="action-icon">📚</div>
+            <div className="action-text">AI Study Plan</div>
+          </Link>
+          <Link href="/writing" className="action-card">
+            <div className="action-icon">✍️</div>
+            <div className="action-text">Writing Assistant</div>
+          </Link>
+          <Link href="/analytics" className="action-card">
+            <div className="action-icon">📊</div>
+            <div className="action-text">View Analytics</div>
+          </Link>
           <Link href="/chat" className="action-card">
             <div className="action-icon">💬</div>
             <div className="action-text">Chat with Codak AI</div>
@@ -140,6 +156,22 @@ export default function DashboardPage() {
           <Link href="/wisdom" className="action-card">
             <div className="action-icon">✨</div>
             <div className="action-text">Read Wisdom</div>
+          </Link>
+          <Link href="/analytics" className="action-card">
+            <div className="action-icon">📊</div>
+            <div className="action-text">View Analytics</div>
+          </Link>
+          <Link href="/habits" className="action-card">
+            <div className="action-icon">🔥</div>
+            <div className="action-text">Track Habits</div>
+          </Link>
+          <Link href="/study" className="action-card">
+            <div className="action-icon">📚</div>
+            <div className="action-text">AI Study Plan</div>
+          </Link>
+          <Link href="/writing" className="action-card">
+            <div className="action-icon">✍️</div>
+            <div className="action-text">Writing Assistant</div>
           </Link>
         </div>
       </section>

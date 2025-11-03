@@ -58,6 +58,7 @@ export function Nav() {
         <Link href="/habits">Habits</Link>
         <Link href="/study">Study</Link>
         <Link href="/writing">Writing</Link>
+        <Link href="/analytics">Analytics</Link>
         <Link href="/chat">Chat {!isPremium() && <span className="premium-icon">✨</span>}</Link>
         <Link href="/wisdom">Wisdom</Link>
         <Link href="/premium" className="premium-link">
