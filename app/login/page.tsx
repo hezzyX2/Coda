@@ -40,7 +40,7 @@ export default function LoginPage() {
           <div className="auth-logo">
             <span className="auth-brand-text">Cod</span>
             <DiamondLogo size={48} animated={true} />
-            <span className="auth-brand-text">k AI</span>
+            <span className="auth-brand-text">k</span>
           </div>
           <h1>Welcome Back</h1>
           <p>Sign in to continue your journey</p>

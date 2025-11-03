@@ -24,7 +24,7 @@ export default function HomePage() {
           <div className="hero-brand">
             <span className="brand-text">Cod</span>
             <DiamondLogo size={80} animated={true} />
-            <span className="brand-text">k AI</span>
+            <span className="brand-text">k</span>
           </div>
           <h1 className="hero-title">Advanced AI-Powered Student Success Platform</h1>
           <p className="hero-subtitle">
