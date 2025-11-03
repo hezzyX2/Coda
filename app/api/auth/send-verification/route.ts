@@ -197,7 +197,7 @@ export async function GET(req: NextRequest) {
 
 function logLoginEvent(data: {
   email: string;
-  type: LoginLog["type"];
+  type: "login_attempt" | "login_success" | "login_failed" | "verification_sent" | "verification_success" | "verification_failed";
   success: boolean;
   error?: string;
 }, req: NextRequest) {
