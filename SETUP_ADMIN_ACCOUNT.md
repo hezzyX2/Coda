@@ -1,10 +1,25 @@
 # 🔐 Setup Admin Account
 
-## Quick Setup Instructions
+## ✅ Admin Email Configured
 
-Your admin email is configured as: **ryan.policicchio@gmail.com**
+Your admin email is already set in `.env.local`:
+```
+NEXT_PUBLIC_ADMIN_EMAIL=ryan.policicchio@gmail.com
+```
 
-### Option 1: Sign Up Normally (Recommended)
+## 🚀 Quick Setup (Easiest Method)
+
+### Option 1: Run Setup Script (Fastest)
+
+1. Open your app in the browser
+2. Open browser DevTools (F12)
+3. Go to **Console** tab
+4. Copy and paste the entire contents of `QUICK_ADMIN_SETUP.js`
+5. Press Enter
+6. Refresh the page
+7. You'll be logged in as admin!
+
+### Option 2: Sign Up Normally (Recommended)
 
 1. Go to the signup page: `/signup`
 2. Enter:
