@@ -81,6 +81,7 @@ export function Nav() {
           {process.env.NEXT_PUBLIC_ADMIN_EMAIL && getCurrentUser()?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
             <>
               <Link href="/admin" className="admin-link">Admin</Link>
+              <Link href="/admin/users" className="admin-link">Users</Link>
               <Link href="/admin/logins" className="admin-link">Login Logs</Link>
             </>
           )}
@@ -121,6 +122,7 @@ export function Nav() {
           {process.env.NEXT_PUBLIC_ADMIN_EMAIL && getCurrentUser()?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
             <>
               <Link href="/admin" className="admin-link" onClick={() => setMobileMenuOpen(false)}>Admin</Link>
+              <Link href="/admin/users" className="admin-link" onClick={() => setMobileMenuOpen(false)}>Users</Link>
               <Link href="/admin/logins" className="admin-link" onClick={() => setMobileMenuOpen(false)}>Login Logs</Link>
             </>
           )}
